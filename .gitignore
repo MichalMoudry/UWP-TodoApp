@@ -1,0 +1,7 @@
+﻿################################################################################
+# Tento soubor .gitignore byl automaticky vytvořen aplikací Microsoft(R) Visual Studio.
+################################################################################
+
+/TodoApp/.vs/TodoApp/v15
+/TodoApp/obj
+/.vs
