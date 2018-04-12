@@ -7,7 +7,22 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource DefaultAcrylic}">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="5*" />
+        </Grid.RowDefinitions>
 
+        <Grid Background="{ThemeResource ControlAcrylic}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <FontIcon x:Name="pageSymbol" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" Margin="20,0,10,0" FontSize="30" />
+            <TextBlock x:Name="pageTitle" Margin="10,-5,0,0" FontSize="30" VerticalAlignment="Center" Grid.Column="1" />
+        </Grid>
+
+        <Frame x:Name="mainFrame" Grid.Row="1" Navigated="MainFrame_Navigated" />
     </Grid>
 </Page>

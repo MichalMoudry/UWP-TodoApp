@@ -6,12 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Title="TITLE"
-    PrimaryButtonText="Button1"
-    SecondaryButtonText="Button2"
+    Background="{ThemeResource CustomContentDialogBackground}"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
 
-    <Grid>
-    </Grid>
+    <StackPanel>
+        <TextBlock x:Name="listNameBoxLabel" FontSize="12" />
+        <TextBox x:Name="listNameBox" />
+    </StackPanel>
 </ContentDialog>

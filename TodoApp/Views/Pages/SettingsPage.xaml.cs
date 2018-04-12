@@ -18,30 +18,16 @@ namespace TodoApp.Views.Pages
     /// <summary>
     /// Prázdná stránka, která se dá použít samostatně nebo se na ni dá přejít v rámci
     /// </summary>
-    public sealed partial class TodoPage : Page
+    public sealed partial class SettingsPage : Page
     {
-        public TodoPage()
+        public SettingsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            AppBarButton button = (AppBarButton)sender;
-
-        }
-
-        private void SecondaryAppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            AppBarButton button = (AppBarButton)sender;
-            if (button.Name.Equals("homeButton"))
-            {
-                Frame.Navigate(typeof(ListsPage));
-            }
-            else if (button.Name.Equals("settingsButton"))
-            {
-                Frame.Navigate(typeof(SettingsPage));
-            }
+            Frame.Navigate(typeof(ListsPage));
         }
     }
 }

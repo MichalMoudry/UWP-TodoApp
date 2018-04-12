@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
+﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
+using System;
+using TodoApp.Helpers;
+using Windows.ApplicationModel.Core;
+using Windows.Graphics.Display;
+using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// Dokumentaci k šabloně Prázdná aplikace najdete na adrese https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace TodoApp.Views.Pages
 {
@@ -24,7 +18,72 @@ namespace TodoApp.Views.Pages
     {
         public ShellPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            ChangeAppBarBackground();
+            DisplayInformation.GetForCurrentView().OrientationChanged += ShellPage_OrientationChanged;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            mainFrame.Navigate(typeof(ListsPage));
+        }
+
+        /// <summary>
+        /// Method for changing background color of status/title bar.
+        /// </summary>
+        private void ChangeAppBarBackground()
+        {
+            if (TitleBarExtensions.IsTitleBarSupported)
+            {
+                TitleBarExtensions.SetBackgroundColor(this, new SolidColorBrush(Microsoft.Toolkit.Uwp.Helpers.ColorHelper.ToColor("#0063B1")).Color);
+                CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+                ApplicationViewTitleBar titleBar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar;
+                titleBar.ButtonBackgroundColor = Colors.Transparent;
+                titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            }
+            else if (StatusBarExtensions.IsStatusBarSupported && !TitleBarExtensions.IsTitleBarSupported)
+            {
+                StatusBarExtensions.SetBackgroundColor(this, new SolidColorBrush(Microsoft.Toolkit.Uwp.Helpers.ColorHelper.ToColor("#0063B1")).Color);
+            }
+        }
+
+        private void MainFrame_Navigated(object sender, NavigationEventArgs e)
+        {
+            Type pageType = e.SourcePageType;
+            if (pageType.Equals(typeof(ListsPage)))
+            {
+                pageTitle.Text = ResourceLoaderHelper.GetResourceLoader().GetString("TodoLists");
+                pageSymbol.Glyph = "\uE179";
+            }
+            else if (pageType.Equals(typeof(TodoPage)))
+            {
+                pageTitle.Text = ResourceLoaderHelper.GetResourceLoader().GetString("Todo");
+                pageSymbol.Glyph = "\uE762";
+            }
+            else if (pageType.Equals(typeof(SettingsPage)))
+            {
+                pageTitle.Text = ResourceLoaderHelper.GetResourceLoader().GetString("Settings");
+                pageSymbol.Glyph = "\uE115";
+            }
+        }
+
+        /// <summary>
+        /// Display OrientationChanged event handler.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="args">Arguments.</param>
+        private void ShellPage_OrientationChanged(DisplayInformation sender, object args)
+        {
+            if (StatusBarExtensions.IsStatusBarSupported &&
+               (sender.CurrentOrientation.Equals(DisplayOrientations.Landscape) || sender.CurrentOrientation.Equals(DisplayOrientations.LandscapeFlipped)))
+            {
+                StatusBarExtensions.SetIsVisible(this, false);
+            }
+            else if (StatusBarExtensions.IsStatusBarSupported)
+            {
+                StatusBarExtensions.SetIsVisible(this, true);
+            }
         }
     }
 }

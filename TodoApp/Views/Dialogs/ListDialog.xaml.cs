@@ -12,8 +12,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// Dokumentaci k šabloně položky Dialog obsahu najdete na adrese https://go.microsoft.com/fwlink/?LinkId=234238
+using TodoApp.Helpers;
+using TodoApp.ViewModels;
+using TodoApp.Models.Database;
 
 namespace TodoApp.Views.Dialogs
 {
@@ -21,15 +22,37 @@ namespace TodoApp.Views.Dialogs
     {
         public ListDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            LocalizeText();
+        }
+
+        private void LocalizeText()
+        {
+            listNameBoxLabel.Text = ResourceLoaderHelper.GetResourceLoader().GetString("ListName");
+            Title = ResourceLoaderHelper.GetResourceLoader().GetString("AddList");
+            PrimaryButtonText = ResourceLoaderHelper.GetResourceLoader().GetString("Add");
+            SecondaryButtonText = ResourceLoaderHelper.GetResourceLoader().GetString("Cancel");
         }
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            if (ValidateForm())
+            {
+                ListViewModel.Instance().AddList(new List() { Name = listNameBox.Text });
+            }
         }
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+        }
+
+        private bool ValidateForm()
+        {
+            if (string.IsNullOrEmpty(listNameBox.Text).Equals(false))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

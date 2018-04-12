@@ -5,3 +5,5 @@
 /TodoApp/.vs/TodoApp/v15
 /TodoApp/obj
 /.vs
+/TodoApp/bin/x86/Debug
+/TodoApp/TodoApp.csproj.user

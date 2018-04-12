@@ -117,6 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Add" xml:space="preserve">
+    <value>Přidat</value>
+  </data>
+  <data name="AddList" xml:space="preserve">
+    <value>Přidat seznam</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Zrušit</value>
+  </data>
+  <data name="ListName" xml:space="preserve">
+    <value>Název seznamu</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Nastavení</value>
+  </data>
+  <data name="Todo" xml:space="preserve">
+    <value>Úkoly</value>
+  </data>
   <data name="TodoLists" xml:space="preserve">
     <value>Seznamy s úkoly</value>
   </data>

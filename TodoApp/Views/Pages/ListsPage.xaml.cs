@@ -12,8 +12,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// Dokumentaci k šabloně Prázdná aplikace najdete na adrese https://go.microsoft.com/fwlink/?LinkId=234238
+using TodoApp.Services;
+using TodoApp.ViewModels;
 
 namespace TodoApp.Views.Pages
 {
@@ -24,7 +24,26 @@ namespace TodoApp.Views.Pages
     {
         public ListsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+        }
+
+        private async void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton button = (AppBarButton)sender;
+            if (button.Name.Equals("addButton"))
+            {
+                await DialogService.Instance().ShowListDialogAsync();
+            }
+        }
+
+        private void SecondaryAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SettingsPage));
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            lists.ItemsSource = ListViewModel.Instance().GetLists();
         }
     }
 }

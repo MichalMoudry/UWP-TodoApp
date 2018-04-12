@@ -117,7 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddList" xml:space="preserve">
+    <value>Add list</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ListName" xml:space="preserve">
+    <value>Name of the list</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Todo" xml:space="preserve">
+    <value>To-do</value>
+  </data>
   <data name="TodoLists" xml:space="preserve">
-    <value />
+    <value>Todo lists</value>
   </data>
 </root>
