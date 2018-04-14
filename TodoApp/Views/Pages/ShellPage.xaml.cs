@@ -4,6 +4,7 @@ using TodoApp.Helpers;
 using Windows.ApplicationModel.Core;
 using Windows.Graphics.Display;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -21,12 +22,31 @@ namespace TodoApp.Views.Pages
             InitializeComponent();
             ChangeAppBarBackground();
             DisplayInformation.GetForCurrentView().OrientationChanged += ShellPage_OrientationChanged;
+            SystemNavigationManager.GetForCurrentView().BackRequested += Frame_BackRequested;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             mainFrame.Navigate(typeof(ListsPage));
+        }
+
+        /// <summary>
+        /// BackRequested event handler.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">Arguments.</param>
+        private void Frame_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (mainFrame == null)
+            {
+                return;
+            }
+            if (mainFrame.CanGoBack && e.Handled.Equals(false))
+            {
+                e.Handled = true;
+                mainFrame.GoBack();
+            }
         }
 
         /// <summary>
@@ -48,23 +68,20 @@ namespace TodoApp.Views.Pages
             }
         }
 
+        /// <summary>
+        /// MainFrame Navigated event handler.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">Arguments.</param>
         private void MainFrame_Navigated(object sender, NavigationEventArgs e)
         {
-            Type pageType = e.SourcePageType;
-            if (pageType.Equals(typeof(ListsPage)))
+            if (mainFrame.CanGoBack)
             {
-                pageTitle.Text = ResourceLoaderHelper.GetResourceLoader().GetString("TodoLists");
-                pageSymbol.Glyph = "\uE179";
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             }
-            else if (pageType.Equals(typeof(TodoPage)))
+            else
             {
-                pageTitle.Text = ResourceLoaderHelper.GetResourceLoader().GetString("Todo");
-                pageSymbol.Glyph = "\uE762";
-            }
-            else if (pageType.Equals(typeof(SettingsPage)))
-            {
-                pageTitle.Text = ResourceLoaderHelper.GetResourceLoader().GetString("Settings");
-                pageSymbol.Glyph = "\uE115";
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
             }
         }
 

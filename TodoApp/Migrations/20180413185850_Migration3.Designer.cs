@@ -11,8 +11,8 @@ using TodoApp.Models.Database;
 namespace TodoApp.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20180411234126_InitMigration")]
-    partial class InitMigration
+    [Migration("20180413185850_Migration3")]
+    partial class Migration3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,6 +25,8 @@ namespace TodoApp.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("Added");
+
                     b.Property<string>("Name");
 
                     b.HasKey("ID");
@@ -36,6 +38,10 @@ namespace TodoApp.Migrations
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Added");
+
+                    b.Property<bool>("IsCompleted");
 
                     b.Property<string>("Name");
 
@@ -52,6 +58,10 @@ namespace TodoApp.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("Added");
+
+                    b.Property<bool>("IsCompleted");
+
+                    b.Property<int>("ListID");
 
                     b.Property<string>("Name");
 

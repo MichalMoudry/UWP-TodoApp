@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace TodoApp.Migrations
 {
-    public partial class InitMigration : Migration
+    public partial class Migration3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,6 +14,7 @@ namespace TodoApp.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Added = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -27,6 +28,8 @@ namespace TodoApp.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Added = table.Column<DateTime>(nullable: false),
+                    IsCompleted = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     TodoID = table.Column<int>(nullable: false)
                 },
@@ -42,6 +45,8 @@ namespace TodoApp.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Added = table.Column<DateTime>(nullable: false),
+                    IsCompleted = table.Column<bool>(nullable: false),
+                    ListID = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

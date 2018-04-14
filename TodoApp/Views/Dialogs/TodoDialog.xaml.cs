@@ -1,35 +1,76 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
+﻿using TodoApp.Helpers;
+using TodoApp.Models.Database;
+using TodoApp.ViewModels.Database;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
-// Dokumentaci k šabloně položky Dialog obsahu najdete na adrese https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace TodoApp.Views.Dialogs
 {
     public sealed partial class TodoDialog : ContentDialog
     {
-        public TodoDialog()
+        private int _listID;
+        private Todo _todo;
+
+        public TodoDialog(int listID)
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            _listID = listID;
+            LocalizeText(false);
         }
 
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        public TodoDialog(Todo todo)
         {
+            InitializeComponent();
+            _listID = todo.ListID;
+            _todo = todo;
+            todoNameBox.Text = _todo.Name;
+            LocalizeText(true);
         }
 
+        /// <summary>
+        /// PrimaryButton Click event handler.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="args">Arguments.</param>
+        private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            if (!ValidationHelper.Instance().ValidateString(todoNameBox.Text) && ValidationHelper.Instance().IsObjectNull(_todo))
+            {
+                await TodoViewModel.Instance().AddTodo(new Todo() { Name = todoNameBox.Text, ListID = _listID });
+            }
+            else if (!ValidationHelper.Instance().ValidateString(todoNameBox.Text) && !ValidationHelper.Instance().IsObjectNull(_todo))
+            {
+                _todo.Name = todoNameBox.Text;
+                await TodoViewModel.Instance().UpdateTodo(_todo);
+            }
+        }
+
+        /// <summary>
+        /// SecondaryButton Click event handler.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="args">Arguments.</param>
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+        }
+
+        /// <summary>
+        /// Method for setting localized values to XAML elements.
+        /// </summary>
+        /// <param name="isUpdate">Is update.</param>
+        private void LocalizeText(bool isUpdate)
+        {
+            todoNameBoxLabel.Text = ResourceLoaderHelper.GetResourceLoader().GetString("TodoName");
+            if (isUpdate)
+            {
+                Title = ResourceLoaderHelper.GetResourceLoader().GetString("EditTodo");
+                PrimaryButtonText = ResourceLoaderHelper.GetResourceLoader().GetString("Update");
+            }
+            else
+            {
+                Title = ResourceLoaderHelper.GetResourceLoader().GetString("AddTodo");
+                PrimaryButtonText = ResourceLoaderHelper.GetResourceLoader().GetString("Add");
+            }
+            SecondaryButtonText = ResourceLoaderHelper.GetResourceLoader().GetString("Cancel");
         }
     }
 }

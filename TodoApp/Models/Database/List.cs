@@ -2,7 +2,7 @@
 
 namespace TodoApp.Models.Database
 {
-    internal class List : Entity
+    public class List : Entity
     {
     }
 }

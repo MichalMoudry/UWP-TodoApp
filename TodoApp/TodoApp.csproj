@@ -97,9 +97,10 @@
     </Compile>
     <Compile Include="Helpers\ResourceLoaderHelper.cs" />
     <Compile Include="Helpers\SettingsHelper.cs" />
-    <Compile Include="Migrations\20180411234126_InitMigration.cs" />
-    <Compile Include="Migrations\20180411234126_InitMigration.designer.cs">
-      <DependentUpon>20180411234126_InitMigration.cs</DependentUpon>
+    <Compile Include="Helpers\ValidationHelper.cs" />
+    <Compile Include="Migrations\20180413185850_Migration3.cs" />
+    <Compile Include="Migrations\20180413185850_Migration3.designer.cs">
+      <DependentUpon>20180413185850_Migration3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\DatabaseContextModelSnapshot.cs" />
     <Compile Include="Models\Database\DatabaseContext.cs" />
@@ -107,13 +108,21 @@
     <Compile Include="Models\Database\SubTask.cs" />
     <Compile Include="Models\Database\Todo.cs" />
     <Compile Include="Models\Extensions\Entity.cs" />
+    <Compile Include="Models\UserInterface\License.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DialogService.cs" />
-    <Compile Include="ViewModels\ListViewModel.cs" />
-    <Compile Include="ViewModels\SubtaskViewModel.cs" />
-    <Compile Include="ViewModels\TodoViewModel.cs" />
+    <Compile Include="ViewModels\Database\ListViewModel.cs" />
+    <Compile Include="ViewModels\Database\SubtaskViewModel.cs" />
+    <Compile Include="ViewModels\Database\TodoViewModel.cs" />
+    <Compile Include="ViewModels\UserInterface\LicenseViewModel.cs" />
+    <Compile Include="Views\Dialogs\DeleteDialog.xaml.cs">
+      <DependentUpon>DeleteDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Dialogs\ListDialog.xaml.cs">
       <DependentUpon>ListDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\SubtaskDialog.xaml.cs">
+      <DependentUpon>SubtaskDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\TodoDialog.xaml.cs">
       <DependentUpon>TodoDialog.xaml</DependentUpon>
@@ -129,6 +138,12 @@
     </Compile>
     <Compile Include="Views\Pages\TodoPage.xaml.cs">
       <DependentUpon>TodoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\InAppNotification.xaml.cs">
+      <DependentUpon>InAppNotification.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\TodoControl.xaml.cs">
+      <DependentUpon>TodoControl.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -154,7 +169,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\Dialogs\DeleteDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Dialogs\ListDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Dialogs\SubtaskDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -177,6 +200,14 @@
     <Page Include="Views\Pages\TodoPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserControls\InAppNotification.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\TodoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

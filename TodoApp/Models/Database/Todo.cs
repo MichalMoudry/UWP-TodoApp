@@ -1,10 +1,10 @@
-﻿using System;
-using TodoApp.Models.Extensions;
+﻿using TodoApp.Models.Extensions;
 
 namespace TodoApp.Models.Database
 {
-    internal class Todo : Entity
+    public class Todo : Entity
     {
-        public DateTime Added { get; set; }
+        public int ListID { get; set; }
+        public bool IsCompleted { get; set; }
     }
 }

@@ -10,20 +10,77 @@
     NavigationCacheMode="Enabled"
     Loaded="Page_Loaded">
 
+    <Page.Resources>
+        <Style x:Key="ListSymbolStyle" TargetType="SymbolIcon">
+            <Setter Property="Margin" Value="0,0,15,0" />
+            <Setter Property="Symbol" Value="List" />
+        </Style>
+
+        <MenuFlyout x:Key="SortFlyout">
+            <MenuFlyoutItem IsEnabled="False" Icon="Sort" x:Uid="/Resources/SortBy" />
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem x:Name="sortByNameButton" Icon="FontSize" x:Uid="/Resources/SortByName"
+                            Click="SortButton_Click" />
+            <MenuFlyoutItem x:Name="sortByDateButton" Icon="Calendar" x:Uid="/Resources/SortByDate"
+                            Click="SortButton_Click" />
+        </MenuFlyout>
+    </Page.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
+            <RowDefinition Height="5*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ListView Margin="5" x:Name="lists">
+        <Grid Background="{ThemeResource ControlAcrylic}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <FontIcon x:Name="pageSymbol" Style="{StaticResource TitleFontIconStyle}" />
+            <TextBlock x:Name="pageTitle" Style="{StaticResource PageTitleStyle}" />
+        </Grid>
+
+        <ListView Margin="5,3,5,3" x:Name="lists" SelectionChanged="Lists_SelectionChanged"
+                  Grid.Row="1">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                    <Setter Property="VerticalAlignment" Value="Stretch" />
+                    <Setter Property="Margin" Value="0,5,0,0" />
+                    <Setter Property="Background" Value="{ThemeResource ControlDarkAcrylic}" />
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:List">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <SymbolIcon Style="{StaticResource ListSymbolStyle}" />
+                        <StackPanel VerticalAlignment="Center" Grid.Column="1">
+                            <TextBlock Text="{x:Bind Name}" />
+                            <TextBlock Text="{x:Bind Added}" Style="{StaticResource DescriptionTextBlockStyle}" />
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
 
-        <CommandBar Grid.Row="1">
+        <CommandBar Grid.Row="2">
             <CommandBar.PrimaryCommands>
-                <AppBarButton Icon="Add" x:Name="addButton" Click="AppBarButton_Click" />
-                <AppBarButton Icon="Sort" x:Name="sortButton" Click="AppBarButton_Click" />
+                <AppBarButton Icon="Delete" x:Name="deleteButton" Visibility="Collapsed" Click="AppBarButton_Click" />
+                <AppBarSeparator x:Name="separator" Visibility="Collapsed" />
+                <AppBarButton x:Name="addButton" Icon="Add" Click="AppBarButton_Click" />
                 <AppBarButton Icon="Bullets" x:Name="selectButton" Click="AppBarButton_Click" />
+                <AppBarButton Icon="Sort" FlyoutBase.AttachedFlyout="{StaticResource SortFlyout}" x:Name="sortButton" 
+                              Click="AppBarButton_Click" />
             </CommandBar.PrimaryCommands>
 
             <CommandBar.SecondaryCommands>

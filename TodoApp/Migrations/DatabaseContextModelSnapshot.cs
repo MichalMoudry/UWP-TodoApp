@@ -24,6 +24,8 @@ namespace TodoApp.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("Added");
+
                     b.Property<string>("Name");
 
                     b.HasKey("ID");
@@ -35,6 +37,10 @@ namespace TodoApp.Migrations
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Added");
+
+                    b.Property<bool>("IsCompleted");
 
                     b.Property<string>("Name");
 
@@ -51,6 +57,10 @@ namespace TodoApp.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("Added");
+
+                    b.Property<bool>("IsCompleted");
+
+                    b.Property<int>("ListID");
 
                     b.Property<string>("Name");
 

@@ -5,22 +5,24 @@ using Windows.UI.Xaml.Controls;
 
 namespace TodoApp.Views.Dialogs
 {
-    public sealed partial class ListDialog : ContentDialog
+    public sealed partial class SubtaskDialog : ContentDialog
     {
-        private List _list;
+        private int _todoID;
+        private Subtask _subtask;
 
-        public ListDialog()
+        public SubtaskDialog(int todoID)
         {
             InitializeComponent();
             LocalizeText(false);
+            _todoID = todoID;
         }
 
-        public ListDialog(List list)
+        public SubtaskDialog(Subtask subtask)
         {
             InitializeComponent();
-            _list = list;
-            listNameBox.Text = _list.Name;
             LocalizeText(true);
+            _subtask = subtask;
+            todoNameBox.Text = _subtask.Name;
         }
 
         /// <summary>
@@ -30,14 +32,14 @@ namespace TodoApp.Views.Dialogs
         /// <param name="args">Arguments.</param>
         private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            if (!ValidationHelper.Instance().ValidateString(listNameBox.Text) && ValidationHelper.Instance().IsObjectNull(_list))
+            if (!ValidationHelper.Instance().ValidateString(todoNameBox.Text) && ValidationHelper.Instance().IsObjectNull(_subtask))
             {
-                await ListViewModel.Instance().AddList(new List() { Name = listNameBox.Text });
+                await SubtaskViewModel.Instance().AddSubtask(new Subtask() { Name = todoNameBox.Text, TodoID = _todoID });
             }
-            else if (!ValidationHelper.Instance().ValidateString(listNameBox.Text) && ValidationHelper.Instance().IsObjectNull(_list).Equals(false))
+            else if (!ValidationHelper.Instance().ValidateString(todoNameBox.Text) && !ValidationHelper.Instance().IsObjectNull(_subtask))
             {
-                _list.Name = listNameBox.Text;
-                await ListViewModel.Instance().UpdateList(_list);
+                _subtask.Name = todoNameBox.Text;
+                await SubtaskViewModel.Instance().UpdateSubtask(_subtask);
             }
         }
 
@@ -56,16 +58,16 @@ namespace TodoApp.Views.Dialogs
         /// <param name="isUpdate">Is update.</param>
         private void LocalizeText(bool isUpdate)
         {
-            listNameBoxLabel.Text = ResourceLoaderHelper.GetResourceLoader().GetString("ListName");
             SecondaryButtonText = ResourceLoaderHelper.GetResourceLoader().GetString("Cancel");
+            todoNameBoxLabel.Text = ResourceLoaderHelper.GetResourceLoader().GetString("SubtaskName");
             if (isUpdate)
             {
-                Title = ResourceLoaderHelper.GetResourceLoader().GetString("EditList");
+                Title = ResourceLoaderHelper.GetResourceLoader().GetString("UpdateSubtask");
                 PrimaryButtonText = ResourceLoaderHelper.GetResourceLoader().GetString("Update");
             }
             else
             {
-                Title = ResourceLoaderHelper.GetResourceLoader().GetString("AddList");
+                Title = ResourceLoaderHelper.GetResourceLoader().GetString("AddSubtask");
                 PrimaryButtonText = ResourceLoaderHelper.GetResourceLoader().GetString("Add");
             }
         }

@@ -1,8 +1,11 @@
-﻿namespace TodoApp.Models.Extensions
+﻿using System;
+
+namespace TodoApp.Models.Extensions
 {
-    internal class Entity
+    public class Entity
     {
         public int ID { get; set; }
         public string Name { get; set; }
+        public DateTime Added { get; set; }
     }
 }

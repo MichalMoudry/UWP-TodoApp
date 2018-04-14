@@ -11,7 +11,7 @@
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
 
     <StackPanel>
-        <TextBlock x:Name="listNameBoxLabel" FontSize="12" />
+        <TextBlock x:Name="listNameBoxLabel" Style="{StaticResource DescriptionTextBlockStyle}" />
         <TextBox x:Name="listNameBox" />
     </StackPanel>
 </ContentDialog>
