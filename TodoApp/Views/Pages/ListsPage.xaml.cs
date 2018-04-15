@@ -46,7 +46,7 @@ namespace TodoApp.Views.Pages
             }
             else if (button.Name.Equals("addButton"))
             {
-                await DialogService.Instance().ShowListDialogAsync();
+                DisplayNotification(await DialogService.Instance().ShowListDialogAsync());
             }
             else if (button.Name.Equals("sortButton"))
             {
@@ -59,6 +59,23 @@ namespace TodoApp.Views.Pages
                 {
                     await ListViewModel.Instance().DeleteLists(lists.SelectedItems.ToList());
                 }
+                ChangeSelectionMode();
+            }
+        }
+
+        /// <summary>
+        /// Method for displaying in-app notification.
+        /// </summary>
+        /// <param name="dialogResult">Result of a dialog.</param>
+        private void DisplayNotification(ContentDialogResult dialogResult)
+        {
+            if (dialogResult.Equals(ContentDialogResult.Primary))
+            {
+                inAppNotification.Show($"{ResourceLoaderHelper.GetResourceLoader().GetString("AddListNotificationContent")}", "#205624");
+            }
+            else if (dialogResult.Equals(ContentDialogResult.None))
+            {
+                inAppNotification.Show($"{ResourceLoaderHelper.GetResourceLoader().GetString("AddError")}", "#ad2929");
             }
         }
 
@@ -109,8 +126,6 @@ namespace TodoApp.Views.Pages
         {
             addButton.Label = ResourceLoaderHelper.GetResourceLoader().GetString("Add");
             ToolTipService.SetToolTip(addButton, addButton.Label);
-            settingsButton.Label = ResourceLoaderHelper.GetResourceLoader().GetString("Settings");
-            ToolTipService.SetToolTip(settingsButton, settingsButton.Label);
             sortButton.Label = ResourceLoaderHelper.GetResourceLoader().GetString("Sort");
             ToolTipService.SetToolTip(sortButton, sortButton.Label);
             selectButton.Label = ResourceLoaderHelper.GetResourceLoader().GetString("Select");
@@ -127,16 +142,6 @@ namespace TodoApp.Views.Pages
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             lists.ItemsSource = ListViewModel.Instance().GetListsAsObservable();
-        }
-
-        /// <summary>
-        /// AppBarButton Click event handler.
-        /// </summary>
-        /// <param name="sender">Sender.</param>
-        /// <param name="e">Arguments.</param>
-        private void SecondaryAppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(SettingsPage));
         }
 
         /// <summary>

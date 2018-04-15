@@ -7,51 +7,74 @@
     RequestedTheme="Dark">
 
     <Application.Resources>
-        <AcrylicBrush x:Key="ControlAcrylic" BackgroundSource="HostBackdrop" TintColor="#FF005599" TintOpacity="0.7"
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Dark">
+                    <Color x:Key="AppColorTheme">#FF005599</Color>
+                    <SolidColorBrush x:Key="SystemControlHighlightAccentBrush" Color="{ThemeResource AppColorTheme}" />
+                    <SolidColorBrush x:Key="SystemControlBackgroundAccentBrush" Color="{ThemeResource AppColorTheme}" />
+                    <SolidColorBrush x:Key="SystemControlDisabledAccentBrush" Color="{ThemeResource AppColorTheme}" />
+                    <SolidColorBrush x:Key="SystemControlForegroundAccentBrush" Color="{ThemeResource AppColorTheme}" />
+                    <SolidColorBrush x:Key="SystemControlHighlightAltAccentBrush" Color="{ThemeResource AppColorTheme}" />
+                    <SolidColorBrush x:Key="SystemControlHighlightAltListAccentHighBrush" Color="{ThemeResource AppColorTheme}" Opacity="0.9" />
+                    <SolidColorBrush x:Key="SystemControlHighlightAltListAccentLowBrush" Color="{ThemeResource AppColorTheme}" Opacity="0.6" />
+                    <SolidColorBrush x:Key="SystemControlHighlightAltListAccentMediumBrush" Color="{ThemeResource AppColorTheme}" Opacity="0.8" />
+                    <SolidColorBrush x:Key="SystemControlHighlightListAccentHighBrush" Color="{ThemeResource AppColorTheme}" Opacity="0.9" />
+                    <SolidColorBrush x:Key="SystemControlHighlightListAccentLowBrush" Color="{ThemeResource AppColorTheme}" Opacity="0.6" />
+                    <SolidColorBrush x:Key="SystemControlHighlightListAccentMediumBrush" Color="{ThemeResource AppColorTheme}" Opacity="0.8" />
+                    <SolidColorBrush x:Key="SystemControlHyperlinkTextBrush" Color="{ThemeResource AppColorTheme}" />
+                    <SolidColorBrush x:Key="ContentDialogBorderThemeBrush" Color="{ThemeResource AppColorTheme}" />
+                    <SolidColorBrush x:Key="JumpListDefaultEnabledBackground" Color="{ThemeResource AppColorTheme}" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+
+            <AcrylicBrush x:Key="ControlAcrylic" BackgroundSource="HostBackdrop" TintColor="#FF005599" TintOpacity="0.7"
                       FallbackColor="#FF005599" />
 
-        <AcrylicBrush x:Key="ControlDarkAcrylic" BackgroundSource="HostBackdrop" TintColor="#FF003964" TintOpacity="0.7"
+            <AcrylicBrush x:Key="ControlDarkAcrylic" BackgroundSource="HostBackdrop" TintColor="#FF003964" TintOpacity="0.7"
                       FallbackColor="#FF003964" />
 
-        <AcrylicBrush x:Key="DefaultAcrylic" BackgroundSource="HostBackdrop" TintColor="#FF858585" TintOpacity="0.7"
+            <AcrylicBrush x:Key="DefaultAcrylic" BackgroundSource="HostBackdrop" TintColor="#FF858585" TintOpacity="0.7"
                       FallbackColor="#FF858585"/>
 
-        <SolidColorBrush x:Name="CustomContentDialogBackground" Color="#FF2C2C2C" />
+            <SolidColorBrush x:Name="CustomContentDialogBackground" Color="#FF2C2C2C" />
+            <SolidColorBrush x:Name="AppColor" Color="#FF005599" />
 
-        <Style TargetType="CommandBar">
-            <Setter Property="Background" Value="{ThemeResource ControlAcrylic}" />
-        </Style>
+            <Style TargetType="CommandBar">
+                <Setter Property="Background" Value="{ThemeResource ControlAcrylic}" />
+            </Style>
 
-        <Style x:Key="DescriptionTextBlockStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="12" />
-            <Setter Property="Foreground" Value="#dbdbdb" />
-        </Style>
+            <Style x:Key="DescriptionTextBlockStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="Foreground" Value="#dbdbdb" />
+            </Style>
 
-        <Style x:Key="TitleFontIconStyle" TargetType="FontIcon">
-            <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="FontSize" Value="30" />
-            <Setter Property="Margin" Value="20,0,10,0" />
-        </Style>
+            <Style x:Key="TitleFontIconStyle" TargetType="FontIcon">
+                <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="FontSize" Value="30" />
+                <Setter Property="Margin" Value="20,0,10,0" />
+            </Style>
 
-        <Style x:Key="PageTitleStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="30" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Margin" Value="10,-5,0,0" />
-            <Setter Property="Grid.Column" Value="1" />
-            <Setter Property="FontWeight" Value="Bold" />
-        </Style>
+            <Style x:Key="PageTitleStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="30" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Margin" Value="10,-5,0,0" />
+                <Setter Property="Grid.Column" Value="1" />
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
 
-        <Style TargetType="toolkitControls:DropShadowPanel">
-            <Setter Property="BlurRadius" Value="8" />
-            <Setter Property="ShadowOpacity" Value="0.5" />
-            <Setter Property="Color" Value="Black" />
-            <Setter Property="Margin" Value="0,10,0,0" />
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        </Style>
+            <Style TargetType="toolkitControls:DropShadowPanel">
+                <Setter Property="BlurRadius" Value="8" />
+                <Setter Property="ShadowOpacity" Value="0.5" />
+                <Setter Property="Color" Value="#595959" />
+                <Setter Property="Margin" Value="0,10,0,0" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            </Style>
 
-        <Style TargetType="MenuFlyoutPresenter">
-            <Setter Property="MinWidth" Value="190" />
-        </Style>
+            <Style TargetType="MenuFlyoutPresenter">
+                <Setter Property="MinWidth" Value="190" />
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

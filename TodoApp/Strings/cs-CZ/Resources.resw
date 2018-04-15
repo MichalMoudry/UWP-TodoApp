@@ -180,9 +180,6 @@
   <data name="Select" xml:space="preserve">
     <value>Vybrat</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>Nastavení</value>
-  </data>
   <data name="Sort" xml:space="preserve">
     <value>Seřadit</value>
   </data>
@@ -215,5 +212,17 @@
   </data>
   <data name="UpdateSubtask" xml:space="preserve">
     <value>Upravit podúkol</value>
+  </data>
+  <data name="AddError" xml:space="preserve">
+    <value>Formulář nebyl správně vyplněn</value>
+  </data>
+  <data name="AddListNotificationContent" xml:space="preserve">
+    <value>Seznam byl přidán</value>
+  </data>
+  <data name="AddSubtodoNotificationContent" xml:space="preserve">
+    <value>Podúkol byl přidán</value>
+  </data>
+  <data name="AddTodoNotificationContent" xml:space="preserve">
+    <value>Úkol byl přidán</value>
   </data>
 </root>

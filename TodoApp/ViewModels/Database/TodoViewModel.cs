@@ -89,6 +89,24 @@ namespace TodoApp.ViewModels.Database
         }
 
         /// <summary>
+        /// Method for obtaining number of to-dos in database.
+        /// </summary>
+        /// <param name="listID">ID of parent list.</param>
+        /// <param name="completed">Are to-dos completed.</param>
+        /// <returns>Number of to-dos in database.</returns>
+        public int GetNumberOfTodos(int listID, bool completed = false)
+        {
+            if (completed.Equals(false))
+            {
+                return _databaseContext.Todos.Where(i => i.ListID == listID).Count();
+            }
+            else
+            {
+                return _databaseContext.Todos.Where(i => i.ListID == listID && i.IsCompleted == true).Count();
+            }
+        }
+
+        /// <summary>
         /// Method for updating Todo entity in database.
         /// </summary>
         /// <param name="todo">Todo entity.</param>

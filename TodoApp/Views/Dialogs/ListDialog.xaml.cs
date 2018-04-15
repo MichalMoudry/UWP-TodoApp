@@ -23,6 +23,8 @@ namespace TodoApp.Views.Dialogs
             LocalizeText(true);
         }
 
+        public ContentDialogResult Result { get; set; }
+
         /// <summary>
         /// PrimaryButton Click event handler.
         /// </summary>
@@ -32,12 +34,18 @@ namespace TodoApp.Views.Dialogs
         {
             if (!ValidationHelper.Instance().ValidateString(listNameBox.Text) && ValidationHelper.Instance().IsObjectNull(_list))
             {
+                Result = ContentDialogResult.Primary;
                 await ListViewModel.Instance().AddList(new List() { Name = listNameBox.Text });
             }
             else if (!ValidationHelper.Instance().ValidateString(listNameBox.Text) && ValidationHelper.Instance().IsObjectNull(_list).Equals(false))
             {
+                Result = ContentDialogResult.Secondary;
                 _list.Name = listNameBox.Text;
                 await ListViewModel.Instance().UpdateList(_list);
+            }
+            else
+            {
+                Result = ContentDialogResult.None;
             }
         }
 
@@ -48,6 +56,7 @@ namespace TodoApp.Views.Dialogs
         /// <param name="args">Arguments.</param>
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            Result = ContentDialogResult.Secondary;
         }
 
         /// <summary>

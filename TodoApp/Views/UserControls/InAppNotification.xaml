@@ -25,6 +25,8 @@
                              Storyboard.TargetProperty="Opacity"
                              From="1.0" To="0.0" Duration="0:0:0.5" />
         </Storyboard>
+
+        <AcrylicBrush x:Key="NotificationBackground" BackgroundSource="HostBackdrop" TintOpacity="0.7" />
     </UserControl.Resources>
 
     <toolkitControls:DropShadowPanel Margin="0" x:Name="RootGrid">
@@ -56,7 +58,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <Grid x:Name="NotificationContentGrid">
+        <Grid x:Name="NotificationContentGrid" Background="{ThemeResource NotificationBackground}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition x:Name="contentColumn" />
                 <ColumnDefinition Width="Auto" />

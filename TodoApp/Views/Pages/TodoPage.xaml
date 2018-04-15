@@ -41,7 +41,8 @@
             <FontIcon x:Name="pageSymbol" Style="{StaticResource TitleFontIconStyle}" FontSize="35" />
             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                 <TextBlock x:Name="pageTitle" Style="{StaticResource PageTitleStyle}" FontSize="25" />
-                <TextBlock x:Name="listName" Margin="13,0,0,0" FontSize="12" />
+                <TextBlock x:Name="listName" Margin="13,-2,0,0" FontSize="12" />
+                <ProgressBar x:Name="taskProgress" Margin="13,5,13,0" Foreground="#42b249" />
             </StackPanel>
         </Grid>
 
@@ -88,10 +89,6 @@
                         <AppBarButton Icon="Add" x:Name="addButton" Click="AppBarButton_Click" />
                         <AppBarButton Icon="Edit" x:Name="editListButton" Click="AppBarButton_Click" />
                     </CommandBar.PrimaryCommands>
-
-                    <CommandBar.SecondaryCommands>
-                        <AppBarButton Icon="Setting" x:Name="settingsButton" Click="SecondaryAppBarButton_Click" />
-                    </CommandBar.SecondaryCommands>
                 </CommandBar>
             </toolkitControls:MasterDetailsView.MasterCommandBar>
 
@@ -111,5 +108,7 @@
                 </StackPanel>
             </toolkitControls:MasterDetailsView.NoSelectionContent>
         </toolkitControls:MasterDetailsView>
+
+        <userControls:InAppNotification x:Name="inAppNotification" Margin="10,0,10,50" Grid.Row="1" />
     </Grid>
 </Page>

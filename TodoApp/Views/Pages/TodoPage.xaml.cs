@@ -1,4 +1,5 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
+using System.Collections.Specialized;
 using TodoApp.Helpers;
 using TodoApp.Models.Database;
 using TodoApp.Services;
@@ -30,8 +31,12 @@ namespace TodoApp.Views.Pages
             pageTitle.Text = ResourceLoaderHelper.GetResourceLoader().GetString("Todo");
             pageSymbol.Glyph = "\uE762";
             _list = (List)e.Parameter;
+            taskProgress.Maximum = TodoViewModel.Instance().GetNumberOfTodos(_list.ID);
+            taskProgress.Value = TodoViewModel.Instance().GetNumberOfTodos(_list.ID, true);
             listName.Text = _list.Name;
-            todos.ItemsSource = TodoViewModel.Instance().GetTodos(_list.ID);
+            var list = TodoViewModel.Instance().GetTodos(_list.ID);
+            list.CollectionChanged += Todos_CollectionChanged;
+            todos.ItemsSource = list;
         }
 
         /// <summary>
@@ -44,13 +49,17 @@ namespace TodoApp.Views.Pages
             AppBarButton button = (AppBarButton)sender;
             if (button.Name.Equals("addButton"))
             {
-                await DialogService.Instance().ShowTodoDialogAsync(_list.ID);
+                DisplayNotification(await DialogService.Instance().ShowTodoDialogAsync(_list.ID));
             }
             else if (button.Name.Equals("editListButton"))
             {
-                await DialogService.Instance().ShowListDialogAsync(_list);
-                List list = ListViewModel.Instance().GetListByID(_list.ID);
-                listName.Text = list.Name;
+                ContentDialogResult result = await DialogService.Instance().ShowListDialogAsync(_list);
+                DisplayNotification(result);
+                if (result.Equals(ContentDialogResult.Secondary))
+                {
+                    List list = ListViewModel.Instance().GetListByID(_list.ID);
+                    listName.Text = list.Name;
+                }
             }
         }
 
@@ -69,12 +78,28 @@ namespace TodoApp.Views.Pages
             else if (button.Name.Equals("deleteTodoButton"))
             {
                 Todo todo = (Todo)todos.SelectedItem;
-                ContentDialogResult result = 
+                ContentDialogResult result =
                     await DialogService.Instance().ShowDeleteDialogAsync($"{ResourceLoaderHelper.GetResourceLoader().GetString("DialogDeleteTodo")} „{todo.Name}“");
                 if (result.Equals(ContentDialogResult.Primary))
                 {
                     await TodoViewModel.Instance().DeleteTodo(todo);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Method for displaying in-app notification.
+        /// </summary>
+        /// <param name="dialogResult">Result of a dialog.</param>
+        private void DisplayNotification(ContentDialogResult dialogResult)
+        {
+            if (dialogResult.Equals(ContentDialogResult.Primary))
+            {
+                inAppNotification.Show($"{ResourceLoaderHelper.GetResourceLoader().GetString("AddTodoNotificationContent")}", "#205624");
+            }
+            else if (dialogResult.Equals(ContentDialogResult.None))
+            {
+                inAppNotification.Show($"{ResourceLoaderHelper.GetResourceLoader().GetString("AddError")}", "#ad2929");
             }
         }
 
@@ -85,8 +110,6 @@ namespace TodoApp.Views.Pages
         {
             editListButton.Label = ResourceLoaderHelper.GetResourceLoader().GetString("EditList");
             ToolTipService.SetToolTip(editListButton, editListButton.Label);
-            settingsButton.Label = ResourceLoaderHelper.GetResourceLoader().GetString("Settings");
-            ToolTipService.SetToolTip(settingsButton, settingsButton.Label);
             addButton.Label = ResourceLoaderHelper.GetResourceLoader().GetString("AddTodo");
             ToolTipService.SetToolTip(addButton, addButton.Label);
             editTodoButton.Label = ResourceLoaderHelper.GetResourceLoader().GetString("EditTodo");
@@ -97,13 +120,13 @@ namespace TodoApp.Views.Pages
         }
 
         /// <summary>
-        /// AppBarButton Click event handler.
+        /// Todos CollectionChanged event handler.
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="e">Arguments.</param>
-        private void SecondaryAppBarButton_Click(object sender, RoutedEventArgs e)
+        private void Todos_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Frame.Navigate(typeof(SettingsPage));
+            taskProgress.Value = TodoViewModel.Instance().GetNumberOfTodos(_list.ID, true);
         }
 
         /// <summary>

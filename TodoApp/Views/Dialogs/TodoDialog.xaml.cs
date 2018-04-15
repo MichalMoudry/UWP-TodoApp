@@ -10,6 +10,9 @@ namespace TodoApp.Views.Dialogs
         private int _listID;
         private Todo _todo;
 
+        public ContentDialogResult Result { get; set; }
+
+
         public TodoDialog(int listID)
         {
             InitializeComponent();
@@ -35,12 +38,18 @@ namespace TodoApp.Views.Dialogs
         {
             if (!ValidationHelper.Instance().ValidateString(todoNameBox.Text) && ValidationHelper.Instance().IsObjectNull(_todo))
             {
+                Result = ContentDialogResult.Primary;
                 await TodoViewModel.Instance().AddTodo(new Todo() { Name = todoNameBox.Text, ListID = _listID });
             }
             else if (!ValidationHelper.Instance().ValidateString(todoNameBox.Text) && !ValidationHelper.Instance().IsObjectNull(_todo))
             {
+                Result = ContentDialogResult.Secondary;
                 _todo.Name = todoNameBox.Text;
                 await TodoViewModel.Instance().UpdateTodo(_todo);
+            }
+            else
+            {
+                Result = ContentDialogResult.None;
             }
         }
 
@@ -51,6 +60,7 @@ namespace TodoApp.Views.Dialogs
         /// <param name="args">Arguments.</param>
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            Result = ContentDialogResult.None;
         }
 
         /// <summary>

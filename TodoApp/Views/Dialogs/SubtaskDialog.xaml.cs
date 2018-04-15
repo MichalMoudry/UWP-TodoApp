@@ -7,8 +7,8 @@ namespace TodoApp.Views.Dialogs
 {
     public sealed partial class SubtaskDialog : ContentDialog
     {
-        private int _todoID;
         private Subtask _subtask;
+        private int _todoID;
 
         public SubtaskDialog(int todoID)
         {
@@ -25,6 +25,8 @@ namespace TodoApp.Views.Dialogs
             todoNameBox.Text = _subtask.Name;
         }
 
+        public ContentDialogResult Result { get; set; }
+
         /// <summary>
         /// PrimaryButton Click event handler.
         /// </summary>
@@ -34,12 +36,18 @@ namespace TodoApp.Views.Dialogs
         {
             if (!ValidationHelper.Instance().ValidateString(todoNameBox.Text) && ValidationHelper.Instance().IsObjectNull(_subtask))
             {
+                Result = ContentDialogResult.Primary;
                 await SubtaskViewModel.Instance().AddSubtask(new Subtask() { Name = todoNameBox.Text, TodoID = _todoID });
             }
             else if (!ValidationHelper.Instance().ValidateString(todoNameBox.Text) && !ValidationHelper.Instance().IsObjectNull(_subtask))
             {
+                Result = ContentDialogResult.Secondary;
                 _subtask.Name = todoNameBox.Text;
                 await SubtaskViewModel.Instance().UpdateSubtask(_subtask);
+            }
+            else
+            {
+                Result = ContentDialogResult.None;
             }
         }
 
@@ -50,6 +58,7 @@ namespace TodoApp.Views.Dialogs
         /// <param name="args">Arguments.</param>
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            Result = ContentDialogResult.Secondary;
         }
 
         /// <summary>

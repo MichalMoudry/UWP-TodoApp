@@ -35,6 +35,9 @@ namespace TodoApp.Views.UserControls
         public void Show(string content, string color)
         {
             Visibility = Visibility.Visible;
+            (Resources["NotificationBackground"] as AcrylicBrush).FallbackColor = ColorHelper.ToColor(color);
+            (Resources["NotificationBackground"] as AcrylicBrush).TintColor = ColorHelper.ToColor(color);
+            NotificationContent.Text = content;
             _timer = new DispatcherTimer
             {
                 Interval = new TimeSpan(0, 0, 6)
@@ -42,8 +45,6 @@ namespace TodoApp.Views.UserControls
             _timer.Tick += Timer_Tick;
             _timer.Start();
             DisplayAnimation.Begin();
-            NotificationContentGrid.Background = new SolidColorBrush(ColorHelper.ToColor(color));
-            NotificationContent.Text = content;
         }
 
         /// <summary>

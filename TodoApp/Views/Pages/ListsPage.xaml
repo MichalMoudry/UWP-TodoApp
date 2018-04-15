@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:TodoApp.Views.Pages"
     xmlns:models="using:TodoApp.Models.Database"
+    xmlns:userControls="using:TodoApp.Views.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -73,6 +74,8 @@
             </ListView.ItemTemplate>
         </ListView>
 
+        <userControls:InAppNotification x:Name="inAppNotification" Grid.Row="1" />
+
         <CommandBar Grid.Row="2">
             <CommandBar.PrimaryCommands>
                 <AppBarButton Icon="Delete" x:Name="deleteButton" Visibility="Collapsed" Click="AppBarButton_Click" />
@@ -82,10 +85,6 @@
                 <AppBarButton Icon="Sort" FlyoutBase.AttachedFlyout="{StaticResource SortFlyout}" x:Name="sortButton" 
                               Click="AppBarButton_Click" />
             </CommandBar.PrimaryCommands>
-
-            <CommandBar.SecondaryCommands>
-                <AppBarButton Icon="Setting" x:Name="settingsButton" Click="SecondaryAppBarButton_Click" />
-            </CommandBar.SecondaryCommands>
         </CommandBar>
     </Grid>
 </Page>

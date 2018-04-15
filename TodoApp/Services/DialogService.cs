@@ -41,7 +41,8 @@ namespace TodoApp.Services
         public async Task<ContentDialogResult> ShowListDialogAsync()
         {
             _listDialog = new ListDialog();
-            return await _listDialog.ShowAsync();
+            await _listDialog.ShowAsync();
+            return _listDialog.Result;
         }
 
         /// <summary>
@@ -52,7 +53,8 @@ namespace TodoApp.Services
         public async Task<ContentDialogResult> ShowListDialogAsync(List list)
         {
             _listDialog = new ListDialog(list);
-            return await _listDialog.ShowAsync();
+            await _listDialog.ShowAsync();
+            return _listDialog.Result;
         }
 
         /// <summary>
@@ -63,7 +65,8 @@ namespace TodoApp.Services
         public async Task<ContentDialogResult> ShowSubtaskDialogAsync(int todoID)
         {
             _subtaskDialog = new SubtaskDialog(todoID);
-            return await _subtaskDialog.ShowAsync();
+            await _subtaskDialog.ShowAsync();
+            return _subtaskDialog.Result;
         }
 
         /// <summary>
@@ -74,7 +77,8 @@ namespace TodoApp.Services
         public async Task<ContentDialogResult> ShowSubtaskDialogAsync(Subtask subtask)
         {
             _subtaskDialog = new SubtaskDialog(subtask);
-            return await _subtaskDialog.ShowAsync();
+            await _subtaskDialog.ShowAsync();
+            return _subtaskDialog.Result;
         }
 
         /// <summary>
@@ -85,7 +89,8 @@ namespace TodoApp.Services
         public async Task<ContentDialogResult> ShowTodoDialogAsync(int listID)
         {
             _todoDialog = new TodoDialog(listID);
-            return await _todoDialog.ShowAsync();
+            await _todoDialog.ShowAsync();
+            return _todoDialog.Result;
         }
 
         /// <summary>
@@ -96,7 +101,8 @@ namespace TodoApp.Services
         public async Task<ContentDialogResult> ShowTodoDialogAsync(Todo todo)
         {
             _todoDialog = new TodoDialog(todo);
-            return await _todoDialog.ShowAsync();
+            await _todoDialog.ShowAsync();
+            return _todoDialog.Result;
         }
     }
 }

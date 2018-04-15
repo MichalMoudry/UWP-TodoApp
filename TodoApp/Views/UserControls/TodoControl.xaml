@@ -139,5 +139,7 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
+
+        <local:InAppNotification x:Name="inAppNotification" Grid.Row="1" />
     </Grid>
 </UserControl>

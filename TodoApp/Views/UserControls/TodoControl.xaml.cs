@@ -32,6 +32,22 @@ namespace TodoApp.Views.UserControls
         }
 
         /// <summary>
+        /// Method for displaying in-app notification.
+        /// </summary>
+        /// <param name="dialogResult">Result of a dialog.</param>
+        private void DisplayNotification(ContentDialogResult dialogResult)
+        {
+            if (dialogResult.Equals(ContentDialogResult.Primary))
+            {
+                inAppNotification.Show($"{ResourceLoaderHelper.GetResourceLoader().GetString("AddSubtodoNotificationContent")}", "#205624");
+            }
+            else if (dialogResult.Equals(ContentDialogResult.None))
+            {
+                inAppNotification.Show($"{ResourceLoaderHelper.GetResourceLoader().GetString("AddError")}", "#ad2929");
+            }
+        }
+
+        /// <summary>
         /// CommandButton Click event handler.
         /// </summary>
         /// <param name="sender">Sender.</param>
@@ -41,7 +57,7 @@ namespace TodoApp.Views.UserControls
             Button button = (Button)sender;
             if (button.Name.Equals("addSubtaskButton"))
             {
-                await DialogService.Instance().ShowSubtaskDialogAsync(_todo.ID);
+                DisplayNotification(await DialogService.Instance().ShowSubtaskDialogAsync(_todo.ID));
             }
             else if (button.Name.Equals("sortSubtasksButton"))
             {

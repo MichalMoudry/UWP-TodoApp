@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using TodoApp.Helpers;
 using TodoApp.Models.Database;
 
 namespace TodoApp.ViewModels.Database
@@ -51,7 +52,10 @@ namespace TodoApp.ViewModels.Database
         {
             _databaseContext.SubTasks.Remove(subtask);
             await _databaseContext.SaveChangesAsync();
-            _subtasks.Remove(subtask);
+            if (!ValidationHelper.Instance().IsObjectNull(_subtasks))
+            {
+                _subtasks.Remove(subtask);
+            }
         }
 
         /// <summary>

@@ -1,6 +1,4 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
-using System;
-using TodoApp.Helpers;
 using Windows.ApplicationModel.Core;
 using Windows.Graphics.Display;
 using Windows.UI;
