@@ -19,14 +19,15 @@
             Height="55"
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Stretch"
-            Canvas.ZIndex="1"
-            Style="{StaticResource Shadow}">
+            Canvas.ZIndex="1">
             <Grid Padding="10" Background="{StaticResource PrimaryColorBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Button Background="LightCoral" Foreground="White">Test</Button>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Foreground="White" Style="{StaticResource TitleTextBlockStyle}">Todo app</TextBlock>
+                </StackPanel>
                 <Button
                     Grid.Column="1"
                     Background="{ThemeResource SettingsButtonBackground}"

@@ -19,6 +19,8 @@ using Windows.UI.Xaml.Media.Animation;
 using TodoApp.Services;
 using Microsoft.Extensions.DependencyInjection;
 using TodoApp.ViewModels;
+using DataAccessLibrary;
+using TodoApp.Shared.Services;
 
 #nullable enable
 
@@ -27,7 +29,7 @@ namespace TodoApp
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    sealed partial class App : Application
+    public sealed partial class App : Application
     {
         private IServiceProvider? _serviceProvider;
 
@@ -36,11 +38,7 @@ namespace TodoApp
             get
             {
                 var serviceProvider = ((App)Current)._serviceProvider;
-                if (serviceProvider == null)
-                {
-                    throw new Exception("Service provider is not initialized.");
-                }
-                return serviceProvider;
+                return serviceProvider == null ? throw new Exception("Service provider is not initialized.") : serviceProvider;
             }
         }
 
@@ -72,6 +70,8 @@ namespace TodoApp
 
                 _serviceProvider = ConfigureServices();
 
+                _serviceProvider.GetRequiredService<IDataAccess>().InitializeDatabase();
+
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     //TODO: Load state from previously suspended application
@@ -88,7 +88,7 @@ namespace TodoApp
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(ShellPage), e.Arguments, new DrillInNavigationTransitionInfo());
+                    _ = rootFrame.Navigate(typeof(ShellPage), e.Arguments, new DrillInNavigationTransitionInfo());
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
@@ -119,12 +119,17 @@ namespace TodoApp
             deferral.Complete();
         }
 
+        /// <summary>
+        /// Configures a new <see cref="IServiceProvider"/> instance with the required services.
+        /// </summary>
         private static IServiceProvider ConfigureServices()
         {
             var provider = new ServiceCollection()
                 .AddSingleton<DialogService>()
                 .AddSingleton<NavigationService>()
                 .AddTransient<ShellPageViewModel>()
+                .AddTransient<TodoListPageViewModel>()
+                .AddSingleton<IDataAccess, DataAccess>()
                 .BuildServiceProvider(true);
             return provider;
         }

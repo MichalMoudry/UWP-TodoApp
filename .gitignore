@@ -13,3 +13,5 @@
 /src/TodoApp.UWP/.vs/TodoApp/v16
 /src/TodoApp.UWP/bin/x86/Debug
 /src/TodoApp.UWP/obj
+/src/DataAccessLibrary/bin/x86/Debug
+/src/TodoApp.Shared/bin/x86/Debug

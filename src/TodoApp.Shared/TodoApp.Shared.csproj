@@ -120,10 +120,12 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Enums\TableEnums.cs" />
     <Compile Include="Models\Entity\SubTodo.cs" />
     <Compile Include="Models\Entity\Todo.cs" />
     <Compile Include="Models\Extensions\Entity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IDataAccess.cs" />
     <EmbeddedResource Include="Properties\TodoApp.Shared.rd.xml" />
   </ItemGroup>
   <ItemGroup>

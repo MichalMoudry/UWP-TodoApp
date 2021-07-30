@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using TodoApp.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -24,7 +26,10 @@ namespace TodoApp.Views
     {
         public TodoListPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            DataContext = App.Services.GetRequiredService<TodoListPageViewModel>();
         }
+
+        public TodoListPageViewModel ViewModel => (TodoListPageViewModel)DataContext;
     }
 }

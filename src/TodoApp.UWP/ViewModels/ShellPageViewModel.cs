@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml.Controls;
-using TodoApp.Services;
+﻿using System.Threading.Tasks;
 using TodoApp.Controls;
+using TodoApp.Services;
 
 namespace TodoApp.ViewModels
 {
     public class ShellPageViewModel
     {
-        private NavigationService _navigationService;
+        private readonly DialogService _dialogService;
 
-        private DialogService _dialogService;
+        private readonly NavigationService _navigationService;
 
         public ShellPageViewModel(NavigationService navigationService, DialogService dialogService)
         {
@@ -21,14 +16,14 @@ namespace TodoApp.ViewModels
             _dialogService = dialogService;
         }
 
-        public void NavigateToTodoListPage()
-        {
-            _navigationService.NavigateToTodoListPage();
-        }
-
         public async Task DisplaySettingsDialog()
         {
             await _dialogService.OpenDialog("Settings", new SettingsControl(), "Cancel", "Ok");
+        }
+
+        public void NavigateToTodoListPage()
+        {
+            _navigationService.NavigateToTodoListPage();
         }
     }
 }
