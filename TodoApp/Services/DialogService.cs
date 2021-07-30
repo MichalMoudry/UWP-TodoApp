@@ -1,31 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
-using TodoApp.Controls;
 
 namespace TodoApp.Services
 {
-    class DialogService
+    public class DialogService
     {
-        public DialogService()
+        private bool _isDialogOpen;
+
+        public async Task OpenDialog(string dialogTitle, UserControl content, string secondaryButtonText, string primaryButtonText = null, ICommand primaryButtonCommand = null, ICommand secondaryButtonCommand = null)
         {
-
-        }
-
-        public static bool IsDialogOpen;
-
-        public async Task OpenDialog(string dialogTitle, UserControl userControl)
-        {
-            if (IsDialogOpen)
+            if (_isDialogOpen)
             {
                 return;
             }
-            var dialog = new ContentDialog() { Title = "Test dialog", Content = userControl };
-            IsDialogOpen = true;
-            await dialog.ShowAsync();
+            var dialog = new ContentDialog()
+            {
+                Title = dialogTitle,
+                Content = content,
+                SecondaryButtonText = secondaryButtonText
+            };
+            if (primaryButtonText != null)
+            {
+                dialog.PrimaryButtonText = primaryButtonText;
+            }
+            if (primaryButtonCommand != null)
+            {
+                dialog.PrimaryButtonCommand = primaryButtonCommand;
+            }
+            if (secondaryButtonCommand != null)
+            {
+                dialog.SecondaryButtonCommand = secondaryButtonCommand;
+            }
+            _isDialogOpen = true;
+            _ = await dialog.ShowAsync();
+            _isDialogOpen = false;
+        }
+
+        public async Task OpenDialog(ContentDialog contentDialog)
+        {
+            if (_isDialogOpen)
+            {
+                return;
+            }
+            _isDialogOpen = true;
+            _ = await contentDialog.ShowAsync();
+            _isDialogOpen = false;
         }
     }
 }

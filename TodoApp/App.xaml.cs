@@ -18,6 +18,7 @@ using TodoApp.Views;
 using Windows.UI.Xaml.Media.Animation;
 using TodoApp.Services;
 using Microsoft.Extensions.DependencyInjection;
+using TodoApp.ViewModels;
 
 #nullable enable
 
@@ -49,8 +50,8 @@ namespace TodoApp
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            InitializeComponent();
+            Suspending += OnSuspending;
         }
 
         /// <summary>
@@ -99,7 +100,7 @@ namespace TodoApp
         /// </summary>
         /// <param name="sender">The Frame which failed navigation</param>
         /// <param name="e">Details about the navigation failure</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
@@ -120,7 +121,11 @@ namespace TodoApp
 
         private static IServiceProvider ConfigureServices()
         {
-            var provider = new ServiceCollection().AddSingleton<DialogService>().BuildServiceProvider(true);
+            var provider = new ServiceCollection()
+                .AddSingleton<DialogService>()
+                .AddSingleton<NavigationService>()
+                .AddTransient<ShellPageViewModel>()
+                .BuildServiceProvider(true);
             return provider;
         }
     }

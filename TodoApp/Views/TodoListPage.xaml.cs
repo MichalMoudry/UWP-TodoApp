@@ -12,9 +12,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.Extensions.DependencyInjection;
-using TodoApp.ViewModels;
-using TodoApp.Services;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -23,15 +20,11 @@ namespace TodoApp.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ShellPage : Page
+    public sealed partial class TodoListPage : Page
     {
-        public ShellPage()
+        public TodoListPage()
         {
-            InitializeComponent();
-            DataContext = App.Services.GetRequiredService<ShellPageViewModel>();
-            App.Services.GetRequiredService<NavigationService>().Frame = rootFrame;
+            this.InitializeComponent();
         }
-
-        public ShellPageViewModel ViewModel => (ShellPageViewModel)DataContext;
     }
 }

@@ -2,6 +2,37 @@
     x:Class="TodoApp.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:TodoApp">
+    xmlns:local="using:TodoApp"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+            </ResourceDictionary.MergedDictionaries>
 
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="SettingsButtonBackground" Color="White" />
+                    <SolidColorBrush x:Key="PageBackgroundBrush" Color="White" />
+                </ResourceDictionary>
+
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="SettingsButtonBackground" Color="Black" />
+                    <SolidColorBrush x:Key="PageBackgroundBrush" Color="#FF2C2F34" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+
+            <Style x:Key="Shadow" TargetType="toolkit:DropShadowPanel">
+                <Setter Property="BlurRadius" Value="4" />
+                <Setter Property="OffsetY" Value="1" />
+                <Setter Property="ShadowOpacity" Value="0.4" />
+            </Style>
+
+            <LinearGradientBrush x:Key="PrimaryColorBrush" StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Offset="0" Color="#7290df" />
+                <GradientStop Offset="1" Color="#f9a825" />
+            </LinearGradientBrush>
+            <FontFamily x:Key="FluentUIGlyphs">/Assets/fluentui.ttf#fluentui</FontFamily>
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>

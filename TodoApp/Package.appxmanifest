@@ -7,11 +7,11 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="4a17263c-e830-4365-bd0e-92c19bb4d815"
+    Name="e2d082ca-ece1-48a3-9b78-b4f08e61dd5d"
     Publisher="CN=moudr"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="4a17263c-e830-4365-bd0e-92c19bb4d815" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="e2d082ca-ece1-48a3-9b78-b4f08e61dd5d" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>TodoApp</DisplayName>
@@ -39,6 +39,11 @@
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="landscape"/>
+          <uap:Rotation Preference="portrait"/>
+          <uap:Rotation Preference="landscapeFlipped"/>
+          <uap:Rotation Preference="portraitFlipped"/></uap:InitialRotationPreference>
       </uap:VisualElements>
     </Application>
   </Applications>
