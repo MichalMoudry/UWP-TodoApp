@@ -8,3 +8,8 @@
 /TodoApp/bin/x86/Debug
 /TodoApp/TodoApp.csproj.user
 /TodoApp/.vs/TodoApp/v16
+/src/DataAccessLibrary/obj
+/src/TodoApp.Shared/obj
+/src/TodoApp.UWP/.vs/TodoApp/v16
+/src/TodoApp.UWP/bin/x86/Debug
+/src/TodoApp.UWP/obj

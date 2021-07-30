@@ -1,4 +1,4 @@
-﻿namespace TodoApp.Models.Entity
+﻿namespace TodoApp.Shared.Models.Entity
 {
     public class SubTodo : Extensions.Entity
     {

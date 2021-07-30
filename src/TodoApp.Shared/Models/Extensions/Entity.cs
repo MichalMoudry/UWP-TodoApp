@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TodoApp.Models.Extensions
+namespace TodoApp.Shared.Models.Extensions
 {
     public abstract class Entity
     {
