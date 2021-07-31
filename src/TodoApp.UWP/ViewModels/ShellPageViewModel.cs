@@ -16,7 +16,7 @@ namespace TodoApp.ViewModels
             _dialogService = dialogService;
         }
 
-        public async Task DisplaySettingsDialog()
+        public async void DisplaySettingsDialog()
         {
             await _dialogService.OpenDialog("Settings", new SettingsControl(), "Cancel", "Ok");
         }

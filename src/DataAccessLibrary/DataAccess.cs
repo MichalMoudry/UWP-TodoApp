@@ -7,6 +7,7 @@ using TodoApp.Shared.Services;
 using Windows.Storage;
 using TodoApp.Shared.Enums;
 using TodoApp.Shared.Models.Entity;
+using System.Threading.Tasks;
 
 namespace DataAccessLibrary
 {
@@ -21,7 +22,7 @@ namespace DataAccessLibrary
         private string dbPath;
 
         /// <inheritdoc/>
-        public bool AddData(Entity entity, string tableName)
+        public async Task<bool> AddDataAsync(Entity entity, string tableName)
         {
             try
             {
@@ -42,7 +43,7 @@ namespace DataAccessLibrary
                         _ = insertCommand.Parameters.AddWithValue("@Added", todo.Added);
                         _ = insertCommand.Parameters.AddWithValue("@Updated", todo.Updated);
                     }
-                    _ = insertCommand.ExecuteReader();
+                    _ = await insertCommand.ExecuteReaderAsync();
                     db.Close();
                 }
                 return true;
@@ -54,33 +55,59 @@ namespace DataAccessLibrary
         }
 
         /// <inheritdoc/>
-        public bool AddMultipleEntities(List<Entity> entities, string tableName)
+        public async Task<bool> AddMultipleEntitiesAsync(List<Entity> entities, string tableName)
         {
-            throw new NotImplementedException();
+            await Task.Delay(1000);
+            return true;
         }
 
         /// <inheritdoc/>
-        public bool DeleteData(string id, string tableName)
+        public async Task<bool> DeleteDataAsync(string id, string tableName)
         {
-            throw new NotImplementedException();
+            await Task.Delay(1000);
+            return true;
         }
 
         /// <inheritdoc/>
-        public bool DeleteMultipleEntities(List<Entity> entities, string tableName)
+        public async Task<bool> DeleteMultipleEntitiesAsync(List<Entity> entities, string tableName)
         {
-            throw new NotImplementedException();
+            await Task.Delay(1000);
+            return true;
         }
 
         /// <inheritdoc/>
-        public List<Entity> GetData(string tableName)
+        public async Task<List<Entity>> GetDataAsync(string tableName)
         {
-            throw new NotImplementedException();
+            List<Entity> entities = new List<Entity>();
+            using (SqliteConnection db = new SqliteConnection($"Filename={dbPath}"))
+            {
+                db.Open();
+                SqliteCommand selectCommand = new SqliteCommand($"SELECT * from {tableName}", db);
+                SqliteDataReader query = await selectCommand.ExecuteReaderAsync();
+                while (await query.ReadAsync())
+                {
+                    if (tableName.Equals(TableEnums.Todos.ToString()))
+                    {
+                        entities.Add(new Todo
+                        {
+                            Id = query.GetString(0),
+                            IsCompleted = Convert.ToBoolean(query.GetInt16(1)),
+                            Name = query.GetString(2),
+                            Added = query.GetDateTime(3),
+                            Updated = query.GetDateTime(4)
+                        });
+                    }
+                }
+                db.Close();
+            }
+            return entities;
         }
 
         /// <inheritdoc/>
-        public Entity GetEntity(string tableName, string id)
+        public async Task<Entity> GetEntityAsync(string tableName, string id)
         {
-            throw new NotImplementedException();
+            await Task.Delay(1000);
+            return null;
         }
 
         /// <inheritdoc/>
@@ -122,9 +149,10 @@ namespace DataAccessLibrary
         }
 
         /// <inheritdoc/>
-        public bool UpdateData(Entity entity, string tableName)
+        public async Task<bool> UpdateDataAsync(Entity entity, string tableName)
         {
-            throw new NotImplementedException();
+            await Task.Delay(1000);
+            return true;
         }
     }
 }

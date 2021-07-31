@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:TodoApp.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Background="Transparent"
     mc:Ignorable="d">
 
     <Grid>
@@ -19,7 +18,8 @@
             Height="55"
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Stretch"
-            Canvas.ZIndex="1">
+            Canvas.ZIndex="1"
+            Style="{StaticResource Shadow}">
             <Grid Padding="10" Background="{StaticResource PrimaryColorBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
