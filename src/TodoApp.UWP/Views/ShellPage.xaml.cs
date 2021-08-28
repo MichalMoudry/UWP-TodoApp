@@ -28,6 +28,7 @@ namespace TodoApp.Views
         public ShellPage()
         {
             InitializeComponent();
+            Window.Current.SetTitleBar(AppTitleBar);
             DataContext = App.Services.GetRequiredService<ShellPageViewModel>();
             App.Services.GetRequiredService<NavigationService>().Frame = rootFrame;
         }

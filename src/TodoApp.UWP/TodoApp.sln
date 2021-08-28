@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoApp.UWP", "TodoApp.UWP.csproj", "{2BABE269-8B79-4B9A-8BFA-DACC74149912}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLibrary", "..\DataAccessLibrary\DataAccessLibrary.csproj", "{3D68551E-CE23-465B-B370-105C79FB2457}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoApp.DataAccess", "..\DataAccessLibrary\TodoApp.DataAccess.csproj", "{3D68551E-CE23-465B-B370-105C79FB2457}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoApp.Shared", "..\TodoApp.Shared\TodoApp.Shared.csproj", "{8400F96F-305E-4033-B700-D81C31254522}"
 EndProject

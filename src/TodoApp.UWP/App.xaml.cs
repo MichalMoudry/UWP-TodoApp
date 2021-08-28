@@ -21,6 +21,9 @@ using Microsoft.Extensions.DependencyInjection;
 using TodoApp.ViewModels;
 using DataAccessLibrary;
 using TodoApp.Shared.Services;
+using Windows.ApplicationModel.Core;
+using Windows.UI.ViewManagement;
+using Windows.UI;
 
 #nullable enable
 
@@ -71,6 +74,11 @@ namespace TodoApp
                 _serviceProvider = ConfigureServices();
 
                 _serviceProvider.GetRequiredService<IDataAccess>().InitializeDatabase();
+
+                CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+                var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+                titleBar.ButtonBackgroundColor = Colors.Transparent;
+                titleBar.InactiveBackgroundColor = Colors.Transparent;
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
