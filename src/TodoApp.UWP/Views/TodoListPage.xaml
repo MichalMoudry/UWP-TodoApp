@@ -6,7 +6,7 @@
     xmlns:entities="using:TodoApp.Shared.Models.Entity"
     xmlns:local="using:TodoApp.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Background="{StaticResource AppBackgroundBrush}"
     Loaded="{x:Bind ViewModel.PageLoaded}"
     mc:Ignorable="d">
 
@@ -14,10 +14,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <SplitView Margin="0,15,0,0" PanePlacement="Right">
+        <SplitView PanePlacement="Right">
             <SplitView.Pane>
                 <TextBlock>Test</TextBlock>
             </SplitView.Pane>
@@ -50,11 +49,12 @@
                 <!--  Item style  -->
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
+                        <!--
                         <Setter Property="Margin" Value="0,3,0,0" />
-                        <Setter Property="Padding" Value="15,18,15,18" />
+                        <Setter Property="Padding" Value="15,11,15,11" />
                         <Setter Property="Background" Value="{ThemeResource ListViewItemBackground}" />
                         <Setter Property="CornerRadius" Value="5" />
-                        <!--
+
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                         <Setter Property="VerticalContentAlignment" Value="Stretch" />
                         <Setter Property="VerticalAlignment" Value="Stretch" />
@@ -68,14 +68,7 @@
             </ListView>
         </SplitView>
 
-        <Rectangle
-            Grid.Row="1"
-            Height="1"
-            Margin="0,10,0,0"
-            HorizontalAlignment="Stretch"
-            Fill="{ThemeResource SeparatorFill}" />
-
-        <Grid Grid.Row="2" Margin="0,10,0,30">
+        <Grid Grid.Row="1" Margin="0,10,0,30">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />

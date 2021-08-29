@@ -15,13 +15,13 @@
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="SettingsButtonBackground" Color="White" />
                     <SolidColorBrush x:Key="SeparatorFill" Color="#FFB9B9B9" />
-                    <SolidColorBrush x:Key="ListViewItemBackground" Color="LightCoral" />
+                    <SolidColorBrush x:Key="ListViewItemBackground" Color="White" />
                 </ResourceDictionary>
 
                 <ResourceDictionary x:Key="Dark">
                     <SolidColorBrush x:Key="SettingsButtonBackground" Color="Black" />
                     <SolidColorBrush x:Key="SeparatorFill" Color="#FFB9B9B9" />
-                    <SolidColorBrush x:Key="ListViewItemBackground" Color="LightGray" />
+                    <SolidColorBrush x:Key="ListViewItemBackground" Color="Black" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
 
@@ -31,12 +31,9 @@
                 <Setter Property="ShadowOpacity" Value="0.4" />
             </Style>
 
-            <SolidColorBrush x:Key="ListViewItemBackground" Color="LightCoral" />
+            <SolidColorBrush x:Key="ListViewItemBackground" Color="White" />
+            <SolidColorBrush x:Key="AppBackgroundBrush" Color="#338B65" />
 
-            <LinearGradientBrush x:Key="PrimaryColorBrush" StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Offset="0" Color="#7290df" />
-                <GradientStop Offset="1" Color="#f9a825" />
-            </LinearGradientBrush>
             <FontFamily x:Key="FluentUIGlyphs">/Assets/fluentui.ttf#fluentui</FontFamily>
         </ResourceDictionary>
     </Application.Resources>
