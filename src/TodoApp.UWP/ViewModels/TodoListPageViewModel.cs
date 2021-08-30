@@ -4,16 +4,25 @@ using System.Collections.ObjectModel;
 using TodoApp.Shared.Enums;
 using TodoApp.Shared.Models.Entity;
 using TodoApp.Shared.Services;
+using TodoApp.Animations;
 
 namespace TodoApp.ViewModels
 {
+    /// <summary>
+    /// View model class for TodoList page.
+    /// </summary>
     public class TodoListPageViewModel : ObservableObject
     {
+        /// <summary>
+        /// Instance of a class that realizes <see cref="IDataAccess"/> interface.
+        /// </summary>
         private readonly IDataAccess _dataAccess;
 
-        private Todo todo;
+        private Todo _todo;
 
-        private string todoName;
+        private string _todoName;
+
+        private AlertAnimation _alertAnimation;
 
         /// <summary>
         /// Constructor of <see cref="TodoListPageViewModel"/> class.
@@ -22,12 +31,17 @@ namespace TodoApp.ViewModels
         public TodoListPageViewModel(IDataAccess dataAccess)
         {
             _dataAccess = dataAccess;
+            _alertAnimation = new AlertAnimation();
+            _alertAnimation.SetupAnimation("Alert", "Margin");
         }
 
+        /// <summary>
+        /// Name of the to-do that will be added to db.
+        /// </summary>
         public string TodoName
         {
-            get => todoName;
-            set => SetProperty(ref todoName, value);
+            get => _todoName;
+            set => SetProperty(ref _todoName, value);
         }
 
         /// <summary>
@@ -42,9 +56,9 @@ namespace TodoApp.ViewModels
         {
             if (!string.IsNullOrEmpty(TodoName))
             {
-                todo = new Todo() { Id = Guid.NewGuid().ToString(), Name = TodoName, IsCompleted = false, Added = DateTime.Now, Updated = DateTime.Now };
-                Todos.Add(todo);
-                var res = await _dataAccess.AddDataAsync(todo, $"{TableEnums.Todos}");
+                _todo = new Todo() { Id = Guid.NewGuid().ToString(), Name = TodoName, IsCompleted = false, Added = DateTime.Now, Updated = DateTime.Now };
+                Todos.Add(_todo);
+                bool res = await _dataAccess.AddDataAsync(_todo, TableEnums.Todos.ToString());
                 TodoName = "";
                 if (!res)
                 {
@@ -53,6 +67,9 @@ namespace TodoApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Event handler for page Loaded event.
+        /// </summary>
         public async void PageLoaded()
         {
             foreach (var todo in await _dataAccess.GetDataAsync(TableEnums.Todos.ToString()))

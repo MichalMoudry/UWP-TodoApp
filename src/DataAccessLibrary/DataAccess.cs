@@ -19,31 +19,37 @@ namespace DataAccessLibrary
         /// <summary>
         /// Private field for storing path to database file.
         /// </summary>
-        private string dbPath;
+        private string _dbPath;
+
+        /// <summary>
+        /// Private field with an instance of <see cref="SqliteCommand"/> class.
+        /// </summary>
+        private SqliteCommand _sqliteCommand;
 
         /// <inheritdoc/>
         public async Task<bool> AddDataAsync(Entity entity, string tableName)
         {
             try
             {
-                using (SqliteConnection db = new SqliteConnection($"Filename={dbPath}"))
+                using (SqliteConnection db = new SqliteConnection($"Filename={_dbPath}"))
                 {
                     db.Open();
-                    SqliteCommand insertCommand = new SqliteCommand
+                    _sqliteCommand = new SqliteCommand
                     {
                         Connection = db,
                         CommandText = $"INSERT INTO {tableName} VALUES "
                     };
                     if (entity is Todo todo)
                     {
-                        insertCommand.CommandText += "(@Id, @IsCompleted, @Name, @Added, @Updated);";
-                        _ = insertCommand.Parameters.AddWithValue("@Id", todo.Id);
-                        _ = insertCommand.Parameters.AddWithValue("@IsCompleted", Convert.ToInt16(todo.IsCompleted));
-                        _ = insertCommand.Parameters.AddWithValue("@Name", todo.Name);
-                        _ = insertCommand.Parameters.AddWithValue("@Added", todo.Added);
-                        _ = insertCommand.Parameters.AddWithValue("@Updated", todo.Updated);
+                        _sqliteCommand.CommandText += "(@Id, @IsCompleted, @Name, @Added, @Updated, @AlertDate);";
+                        _ = _sqliteCommand.Parameters.AddWithValue("@Id", todo.Id);
+                        _ = _sqliteCommand.Parameters.AddWithValue("@IsCompleted", Convert.ToInt16(todo.IsCompleted));
+                        _ = _sqliteCommand.Parameters.AddWithValue("@Name", todo.Name);
+                        _ = _sqliteCommand.Parameters.AddWithValue("@Added", todo.Added);
+                        _ = _sqliteCommand.Parameters.AddWithValue("@Updated", todo.Updated);
+                        _ = _sqliteCommand.Parameters.AddWithValue("@AlertDate", todo.AlertDate);
                     }
-                    _ = await insertCommand.ExecuteReaderAsync();
+                    _ = await _sqliteCommand.ExecuteReaderAsync();
                     db.Close();
                 }
                 return true;
@@ -79,11 +85,11 @@ namespace DataAccessLibrary
         public async Task<List<Entity>> GetDataAsync(string tableName)
         {
             List<Entity> entities = new List<Entity>();
-            using (SqliteConnection db = new SqliteConnection($"Filename={dbPath}"))
+            using (SqliteConnection db = new SqliteConnection($"Filename={_dbPath}"))
             {
                 db.Open();
-                SqliteCommand selectCommand = new SqliteCommand($"SELECT * from {tableName}", db);
-                SqliteDataReader query = await selectCommand.ExecuteReaderAsync();
+                _sqliteCommand = new SqliteCommand($"SELECT * from {tableName}", db);
+                SqliteDataReader query = await _sqliteCommand.ExecuteReaderAsync();
                 while (await query.ReadAsync())
                 {
                     if (tableName.Equals(TableEnums.Todos.ToString()))
@@ -94,7 +100,8 @@ namespace DataAccessLibrary
                             IsCompleted = Convert.ToBoolean(query.GetInt16(1)),
                             Name = query.GetString(2),
                             Added = query.GetDateTime(3),
-                            Updated = query.GetDateTime(4)
+                            Updated = query.GetDateTime(4),
+                            AlertDate = query.GetDateTime(5)
                         });
                     }
                 }
@@ -114,24 +121,24 @@ namespace DataAccessLibrary
         public async void InitializeDatabase()
         {
             _ = await ApplicationData.Current.LocalFolder.CreateFileAsync("todoDatabase.db", CreationCollisionOption.OpenIfExists);
-            dbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "todoDatabase.db");
-            using (SqliteConnection db = new SqliteConnection($"Filename={dbPath}"))
+            _dbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "todoDatabase.db");
+            using (SqliteConnection db = new SqliteConnection($"Filename={_dbPath}"))
             {
                 db.Open();
 
                 string tableCommand;
-                SqliteCommand sqliteCommand;
 
                 tableCommand = $"CREATE TABLE IF NOT EXISTS {TableEnums.Todos} (" +
                     "TodoId VARCHAR2 PRIMARY KEY, " +
                     "IsCompleted CHAR(1) NOT NULL, " +
                     "Name VARCHAR2(4000) NOT NULL, " +
                     "Added DATE NOT NULL, " +
-                    "Updated DATE NOT NULL)";
+                    "Updated DATE NOT NULL, " + 
+                    "AlertDate DATE NOT NULL)";
 
-                sqliteCommand = new SqliteCommand(tableCommand, db);
+                _sqliteCommand = new SqliteCommand(tableCommand, db);
 
-                _ = sqliteCommand.ExecuteReader();
+                _ = _sqliteCommand.ExecuteReader();
 
                 tableCommand = $"CREATE TABLE IF NOT EXISTS {TableEnums.SubTodos} (" +
                     "SubTodoId VARCHAR2 PRIMARY KEY, " +
@@ -142,9 +149,9 @@ namespace DataAccessLibrary
                     "Updated DATE NOT NULL, " +
                     "FOREIGN KEY (TodoId) REFERENCES Todos (TodoId) ON DELETE CASCADE)";
 
-                sqliteCommand = new SqliteCommand(tableCommand, db);
+                _sqliteCommand = new SqliteCommand(tableCommand, db);
 
-                _ = sqliteCommand.ExecuteReader();
+                _ = _sqliteCommand.ExecuteReader();
             }
         }
 

@@ -10,81 +10,119 @@
     Loaded="{x:Bind ViewModel.PageLoaded}"
     mc:Ignorable="d">
 
-    <Grid Margin="20,0,20,0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <Page.Resources>
+        <Storyboard x:Name="ErrorAlertAnimation">
+            <DoubleAnimation
+                Storyboard.TargetName="Alert"
+                Storyboard.TargetProperty="X"
+                From="0"
+                To="200">
+                <DoubleAnimation.EasingFunction>
+                    <CircleEase EasingMode="EaseInOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </Page.Resources>
 
-        <SplitView PanePlacement="Right">
-            <SplitView.Pane>
-                <TextBlock>Test</TextBlock>
-            </SplitView.Pane>
+    <Grid>
+        <Grid Margin="20,0,20,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-            <ListView ItemsSource="{x:Bind ViewModel.Todos}" SelectionMode="Single">
-                <!--  Item template  -->
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="entities:Todo">
-                        <Grid CornerRadius="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
+            <SplitView PanePlacement="Right">
+                <SplitView.Pane>
+                    <TextBlock>Test</TextBlock>
+                </SplitView.Pane>
 
-                            <CheckBox
-                                MinWidth="0"
-                                Padding="0"
-                                CornerRadius="10" />
+                <ListView ItemsSource="{x:Bind ViewModel.Todos}" SelectionMode="Single">
+                    <!--  Item template  -->
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="entities:Todo">
+                            <Grid
+                                Padding="15,11,15,11"
+                                Background="White"
+                                CornerRadius="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
 
-                            <TextBlock
-                                Grid.Column="1"
-                                Margin="15,0,0,0"
-                                VerticalAlignment="Center"
-                                Text="{x:Bind Name}" />
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
+                                <CheckBox
+                                    MinWidth="0"
+                                    Padding="0"
+                                    CornerRadius="10" />
 
-                <!--  Item style  -->
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <!--
-                        <Setter Property="Margin" Value="0,3,0,0" />
-                        <Setter Property="Padding" Value="15,11,15,11" />
-                        <Setter Property="Background" Value="{ThemeResource ListViewItemBackground}" />
-                        <Setter Property="CornerRadius" Value="5" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Margin="15,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="{x:Bind Name}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
 
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                        <Setter Property="VerticalAlignment" Value="Stretch" />
-                        <Setter Property="Margin" Value="0,3,0,0" />
-                        <Setter Property="Padding" Value="15,18,15,18" />
-                        <Setter Property="CornerRadius" Value="5" />
-                        <Setter Property="Background" Value="{ThemeResource ListViewItemBackground}" />
-                        -->
-                    </Style>
-                </ListView.ItemContainerStyle>
-            </ListView>
-        </SplitView>
+                    <!--  Item style  -->
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                            <Setter Property="VerticalAlignment" Value="Stretch" />
+                            <Setter Property="Margin" Value="-11,3,-11,0" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </SplitView>
 
-        <Grid Grid.Row="1" Margin="0,10,0,30">
+            <Grid Grid.Row="1" Margin="0,10,0,30">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Margin="0,0,15,0"
+                    PlaceholderText="Enter to-do name..."
+                    Text="{x:Bind ViewModel.TodoName, Mode=TwoWay}" />
+                <Button Grid.Column="1" Click="{x:Bind ViewModel.AddTodo}">
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon
+                            Margin="0,1,0,0"
+                            FontFamily="{StaticResource FluentUIGlyphs}"
+                            Glyph="&#xE9A8;" />
+                        <TextBlock Margin="3,2,0,0" Text="Add to-do" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Grid>
+
+        <Grid
+            Margin="20,0,20,0"
+            Padding="10"
+            VerticalAlignment="Bottom"
+            Background="#FF7E7E"
+            CornerRadius="5">
+
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBox
-                Margin="0,0,15,0"
-                PlaceholderText="Enter to-do name..."
-                Text="{x:Bind ViewModel.TodoName, Mode=TwoWay}" />
-            <Button Grid.Column="1" Click="{x:Bind ViewModel.AddTodo}">
-                <StackPanel Orientation="Horizontal">
-                    <FontIcon
-                        Margin="0,1,0,0"
-                        FontFamily="{StaticResource FluentUIGlyphs}"
-                        Glyph="&#xE9A8;" />
-                    <TextBlock Margin="3,2,0,0" Text="Add to-do" />
-                </StackPanel>
+
+            <Grid.RenderTransform>
+                <TranslateTransform x:Name="Alert" />
+            </Grid.RenderTransform>
+
+            <TextBlock
+                VerticalAlignment="Center"
+                Foreground="White"
+                Style="{StaticResource SubtitleTextBlockStyle}"
+                Text="To-do name field must be filled..." />
+            <Button Grid.Column="1">
+                <FontIcon
+                    Margin="0,1,0,0"
+                    FontFamily="{StaticResource FluentUIGlyphs}"
+                    Glyph="&#xE9F9;" />
             </Button>
         </Grid>
     </Grid>
