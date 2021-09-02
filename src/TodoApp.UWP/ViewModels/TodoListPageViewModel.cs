@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using TodoApp.Shared.Enums;
 using TodoApp.Shared.Models.Entity;
 using TodoApp.Shared.Services;
-using TodoApp.Animations;
 
 namespace TodoApp.ViewModels
 {
@@ -18,11 +17,11 @@ namespace TodoApp.ViewModels
         /// </summary>
         private readonly IDataAccess _dataAccess;
 
+        private bool _isNotificationDisplayed;
+
         private Todo _todo;
 
         private string _todoName;
-
-        private AlertAnimation _alertAnimation;
 
         /// <summary>
         /// Constructor of <see cref="TodoListPageViewModel"/> class.
@@ -31,9 +30,21 @@ namespace TodoApp.ViewModels
         public TodoListPageViewModel(IDataAccess dataAccess)
         {
             _dataAccess = dataAccess;
-            _alertAnimation = new AlertAnimation();
-            _alertAnimation.SetupAnimation("Alert", "Margin");
         }
+
+        /// <summary>
+        /// Property indicating if notification is displayed.
+        /// </summary>
+        public bool IsNotificationDisplayed
+        {
+            get => _isNotificationDisplayed;
+            set => SetProperty(ref _isNotificationDisplayed, value);
+        }
+
+        /// <summary>
+        /// Property with content of the notification that is on the page.
+        /// </summary>
+        public string NotificationContent { get; set; }
 
         /// <summary>
         /// Name of the to-do that will be added to db.
@@ -64,6 +75,12 @@ namespace TodoApp.ViewModels
                 {
                     //TODO: Display error
                 }
+            }
+            else
+            {
+                NotificationContent = "To-do name field must be filled...";
+                IsNotificationDisplayed = true;
+                IsNotificationDisplayed = false;
             }
         }
 
