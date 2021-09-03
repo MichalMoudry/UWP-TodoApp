@@ -1,29 +1,28 @@
-﻿using System.Threading.Tasks;
-using TodoApp.Controls;
+﻿using TodoApp.Controls;
 using TodoApp.Services;
+using TodoApp.Views;
 
 namespace TodoApp.ViewModels
 {
+    /// <summary>
+    /// View model class for ShellPage page.
+    /// </summary>
     public class ShellPageViewModel
     {
         private readonly DialogService _dialogService;
 
-        private readonly NavigationService _navigationService;
-
-        public ShellPageViewModel(NavigationService navigationService, DialogService dialogService)
+        /// <summary>
+        /// Constructor of <see cref="ShellPageViewModel"/> class.
+        /// </summary>
+        /// <param name="dialogService">Instance of a <see cref="DialogService"/> service class.</param>
+        public ShellPageViewModel(DialogService dialogService)
         {
-            _navigationService = navigationService;
             _dialogService = dialogService;
         }
 
         public async void DisplaySettingsDialog()
         {
             await _dialogService.OpenDialog("Settings", new SettingsControl(), "Cancel", "Ok");
-        }
-
-        public void NavigateToTodoListPage()
-        {
-            _navigationService.NavigateToTodoListPage();
         }
     }
 }

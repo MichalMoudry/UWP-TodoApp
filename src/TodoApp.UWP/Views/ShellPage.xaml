@@ -69,6 +69,6 @@
         <Frame
             x:Name="rootFrame"
             Grid.Row="1"
-            Loaded="{x:Bind ViewModel.NavigateToTodoListPage}" />
+            Loaded="rootFrame_Loaded" />
     </Grid>
 </Page>

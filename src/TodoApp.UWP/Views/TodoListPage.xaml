@@ -7,61 +7,58 @@
     xmlns:entities="using:TodoApp.Shared.Models.Entity"
     xmlns:local="using:TodoApp.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Background="{StaticResource AppBackgroundBrush}"
-    Loaded="{x:Bind ViewModel.PageLoaded}"
+    Background="{ThemeResource AppBackgroundBrush}"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid Grid.Row="1">
         <Grid Margin="20,0,20,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <SplitView PanePlacement="Right">
-                <SplitView.Pane>
-                    <TextBlock>Test</TextBlock>
-                </SplitView.Pane>
+            <ListView
+                x:Name="todoList"
+                ItemsSource="{x:Bind ViewModel.Todos}"
+                SelectionChanged="ListView_SelectionChanged"
+                SelectionMode="Single">
+                <!--  Item template  -->
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="entities:Todo">
+                        <Grid
+                            Padding="15,11,15,11"
+                            Background="White"
+                            CornerRadius="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
-                <ListView ItemsSource="{x:Bind ViewModel.Todos}" SelectionMode="Single">
-                    <!--  Item template  -->
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="entities:Todo">
-                            <Grid
-                                Padding="15,11,15,11"
-                                Background="White"
-                                CornerRadius="5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+                            <CheckBox
+                                MinWidth="0"
+                                Padding="0"
+                                CornerRadius="10" />
 
-                                <CheckBox
-                                    MinWidth="0"
-                                    Padding="0"
-                                    CornerRadius="10" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="15,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind Name}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
 
-                                <TextBlock
-                                    Grid.Column="1"
-                                    Margin="15,0,0,0"
-                                    VerticalAlignment="Center"
-                                    Text="{x:Bind Name}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-
-                    <!--  Item style  -->
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                            <Setter Property="VerticalAlignment" Value="Stretch" />
-                            <Setter Property="Margin" Value="-11,3,-11,0" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                </ListView>
-            </SplitView>
+                <!--  Item style  -->
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                        <Setter Property="VerticalAlignment" Value="Stretch" />
+                        <Setter Property="Margin" Value="-11,3,-11,0" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
 
             <Grid Grid.Row="1" Margin="0,10,0,30">
                 <Grid.ColumnDefinitions>

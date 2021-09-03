@@ -1,6 +1,8 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.ObjectModel;
+using TodoApp.Controls;
+using TodoApp.Services;
 using TodoApp.Shared.Enums;
 using TodoApp.Shared.Models.Entity;
 using TodoApp.Shared.Services;
@@ -27,6 +29,7 @@ namespace TodoApp.ViewModels
         /// Constructor of <see cref="TodoListPageViewModel"/> class.
         /// </summary>
         /// <param name="dataAccess">Instance of a class that is under <see cref="IDataAccess"/> interface.</param>
+        /// <param name="dialogService">Instance of a <see cref="DialogService"/> service class.</param>
         public TodoListPageViewModel(IDataAccess dataAccess)
         {
             _dataAccess = dataAccess;

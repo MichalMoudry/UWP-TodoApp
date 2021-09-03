@@ -97,6 +97,7 @@ namespace TodoApp
                     // configuring the new page by passing required information as a navigation
                     // parameter
                     _ = rootFrame.Navigate(typeof(ShellPage), e.Arguments, new DrillInNavigationTransitionInfo());
+                    Services.GetRequiredService<NavigationService>().Frame = rootFrame;
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
@@ -132,7 +133,7 @@ namespace TodoApp
         /// </summary>
         private static IServiceProvider ConfigureServices()
         {
-            var provider = new ServiceCollection()
+            ServiceProvider provider = new ServiceCollection()
                 .AddSingleton<DialogService>()
                 .AddSingleton<NavigationService>()
                 .AddTransient<ShellPageViewModel>()
