@@ -8,6 +8,8 @@
     xmlns:local="using:TodoApp.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource AppBackgroundBrush}"
+    Loaded="{x:Bind ViewModel.PageLoaded}"
+    NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
     <Grid Grid.Row="1">

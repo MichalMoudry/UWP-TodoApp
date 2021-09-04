@@ -138,6 +138,7 @@ namespace TodoApp
                 .AddSingleton<NavigationService>()
                 .AddTransient<ShellPageViewModel>()
                 .AddTransient<TodoListPageViewModel>()
+                .AddTransient<TodoDetailsPageViewModel>()
                 .AddSingleton<IDataAccess, DataAccess>()
                 .BuildServiceProvider(true);
             return provider;

@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using TodoApp.Services;
+using TodoApp.Shared.Models.Entity;
 using TodoApp.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -45,7 +46,7 @@ namespace TodoApp.Views
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _navigationService.Navigate(typeof(TodoDetailsPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+            _navigationService.Navigate(typeof(TodoDetailsPage), todoList.SelectedItem as Todo, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
         }
 
         /// <summary>

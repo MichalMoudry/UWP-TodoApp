@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using Microsoft.Extensions.DependencyInjection;
+using TodoApp.ViewModels;
+using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace TodoApp.Views
 {
@@ -24,7 +15,19 @@ namespace TodoApp.Views
     {
         public TodoDetailsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            Window.Current.SetTitleBar(AppTitleBar);
+            DataContext = App.Services.GetRequiredService<TodoDetailsPageViewModel>();
+            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            titleBar.ButtonForegroundColor = Colors.Black;
+        }
+
+        public TodoDetailsPageViewModel ViewModel => (TodoDetailsPageViewModel)DataContext;
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            ViewModel.Todo = (Shared.Models.Entity.Todo)e.Parameter;
         }
     }
 }
