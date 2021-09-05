@@ -18,8 +18,7 @@ namespace TodoApp.Views
             InitializeComponent();
             Window.Current.SetTitleBar(AppTitleBar);
             DataContext = App.Services.GetRequiredService<TodoDetailsPageViewModel>();
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonForegroundColor = Colors.Black;
+            ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = Colors.Black;
         }
 
         public TodoDetailsPageViewModel ViewModel => (TodoDetailsPageViewModel)DataContext;

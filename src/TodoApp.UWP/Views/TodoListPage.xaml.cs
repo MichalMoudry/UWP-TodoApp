@@ -1,21 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using TodoApp.Services;
 using TodoApp.Shared.Models.Entity;
 using TodoApp.ViewModels;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
@@ -26,6 +14,9 @@ namespace TodoApp.Views
     /// </summary>
     public sealed partial class TodoListPage : Page
     {
+        /// <summary>
+        /// Private read-only field with <see cref="NavigationService"/> instance.
+        /// </summary>
         private readonly NavigationService _navigationService;
 
         public TodoListPage()
@@ -36,6 +27,9 @@ namespace TodoApp.Views
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
+        /// <summary>
+        /// View model of this page.
+        /// </summary>
         public TodoListPageViewModel ViewModel => (TodoListPageViewModel)DataContext;
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -44,6 +38,11 @@ namespace TodoApp.Views
             todoList.SelectedIndex = -1;
         }
 
+        /// <summary>
+        /// Event handler for to-do list ListView SelectionChanged event.
+        /// </summary>
+        /// <param name="sender">To-do list ListView.</param>
+        /// <param name="e">Event parameters.</param>
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _navigationService.Navigate(typeof(TodoDetailsPage), todoList.SelectedItem as Todo, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });

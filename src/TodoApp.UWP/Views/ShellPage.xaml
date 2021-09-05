@@ -6,6 +6,8 @@
     xmlns:local="using:TodoApp.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    Background="{ThemeResource AppBackgroundBrush}"
+    NavigationCacheMode="Required"
     mc:Ignorable="d">
 
     <Grid>
