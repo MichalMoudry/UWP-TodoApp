@@ -9,6 +9,8 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using TodoApp.Shared.Models.Entity;
 using TodoApp.Views;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Controls;
+using Windows.Foundation;
 
 namespace TodoApp.ViewModels
 {

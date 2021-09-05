@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 using TodoApp.ViewModels;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -19,6 +20,7 @@ namespace TodoApp.Views
             Window.Current.SetTitleBar(AppTitleBar);
             DataContext = App.Services.GetRequiredService<TodoDetailsPageViewModel>();
             ApplicationView.GetForCurrentView().TitleBar.ButtonForegroundColor = Colors.Black;
+            CompletionDateView.MinDate = System.DateTimeOffset.Now;
         }
 
         public TodoDetailsPageViewModel ViewModel => (TodoDetailsPageViewModel)DataContext;
@@ -27,6 +29,12 @@ namespace TodoApp.Views
         {
             base.OnNavigatedTo(e);
             ViewModel.Todo = (Shared.Models.Entity.Todo)e.Parameter;
+        }
+
+        private void CompletionDateView_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
+        {
+            System.Diagnostics.Debug.WriteLine(sender.SelectedDates.First());
+            CompletionDateButton.Flyout.Hide();
         }
     }
 }

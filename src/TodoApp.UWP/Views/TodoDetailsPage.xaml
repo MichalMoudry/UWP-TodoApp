@@ -81,6 +81,7 @@
                 Background="White"
                 BorderBrush="LightGray"
                 BorderThickness="1">
+                <!--  Reminder  -->
                 <Grid Padding="15">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -100,20 +101,42 @@
                     Margin="45,0,0,0"
                     Fill="LightGray" />
 
-                <!--  Reminder  -->
-                <Grid Padding="15">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                <!--  Completion date  -->
+                <Button
+                    x:Name="CompletionDateButton"
+                    Padding="15"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Left"
+                    BorderThickness="0">
+                    <Button.Content>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
-                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE972;" />
-                    <TextBlock
-                        Grid.Column="1"
-                        Margin="10,0,0,0"
-                        Text="Add completion date" />
-                </Grid>
+                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE972;" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="10,0,0,0"
+                                Text="Add completion date" />
+                        </Grid>
+                    </Button.Content>
+
+                    <Button.Flyout>
+                        <Flyout>
+                            <CalendarView
+                                x:Name="CompletionDateView"
+                                IsGroupLabelVisible="False"
+                                IsOutOfScopeEnabled="True"
+                                Language="en"
+                                SelectedDatesChanged="CompletionDateView_SelectedDatesChanged"
+                                SelectionMode="Single" />
+                        </Flyout>
+                    </Button.Flyout>
+
+                </Button>
 
                 <Rectangle
                     Height="1"
@@ -149,6 +172,15 @@
                 PlaceholderText="Add note"
                 SelectionHighlightColor="{StaticResource AppBackgroundBrush}"
                 TextWrapping="Wrap" />
+
+            <Grid Margin="10,10,10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="{x:Bind ViewModel.Todo.AlertDate.ToShortDateString()}" />
+            </Grid>
         </StackPanel>
     </Grid>
 </Page>
