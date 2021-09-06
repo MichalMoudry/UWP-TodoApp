@@ -72,8 +72,8 @@ namespace TodoApp
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 _serviceProvider = ConfigureServices();
-
                 _serviceProvider.GetRequiredService<IDataAccess>().InitializeDatabase();
+                _serviceProvider.GetRequiredService<SettingsService>().SetInitialSettings();
 
                 CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
                 var titleBar = ApplicationView.GetForCurrentView().TitleBar;
@@ -140,6 +140,7 @@ namespace TodoApp
                 .AddTransient<TodoListPageViewModel>()
                 .AddTransient<TodoDetailsPageViewModel>()
                 .AddSingleton<IDataAccess, DataAccess>()
+                .AddSingleton<SettingsService>()
                 .BuildServiceProvider(true);
             return provider;
         }
