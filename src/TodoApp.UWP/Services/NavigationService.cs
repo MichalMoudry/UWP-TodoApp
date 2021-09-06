@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -14,9 +15,15 @@ namespace TodoApp.Services
         /// </summary>
         public Frame Frame { private get; set; }
 
+        /// <summary>
+        /// Navigates to the most recent item in back navigation history.
+        /// </summary>
         public void GoBack()
         {
-            Frame.GoBack();
+            if (Frame.CanGoBack)
+            {
+                Frame.GoBack();
+            }
         }
 
         /// <summary>

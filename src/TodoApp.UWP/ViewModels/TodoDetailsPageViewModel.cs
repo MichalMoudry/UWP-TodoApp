@@ -7,10 +7,6 @@ using TodoApp.Shared.Services;
 using TodoApp.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using TodoApp.Shared.Models.Entity;
-using TodoApp.Views;
-using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Controls;
-using Windows.Foundation;
 
 namespace TodoApp.ViewModels
 {
@@ -29,6 +25,9 @@ namespace TodoApp.ViewModels
         /// </summary>
         private readonly NavigationService _navigationService;
 
+        /// <summary>
+        /// To-do that is being edited.
+        /// </summary>
         private Todo _todo;
 
         public TodoDetailsPageViewModel(IDataAccess dataAccess, NavigationService navigationService)
@@ -37,6 +36,9 @@ namespace TodoApp.ViewModels
             _navigationService = navigationService;
         }
 
+        /// <summary>
+        /// To-do that is being edited.
+        /// </summary>
         public Todo Todo
         {
             get => _todo;

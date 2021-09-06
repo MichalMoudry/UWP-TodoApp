@@ -36,7 +36,7 @@ namespace TodoApp.Views
 
         private void rootFrame_Loaded(object sender, RoutedEventArgs e)
         {
-            rootFrame.Navigate(typeof(TodoListPage));
+            _ = rootFrame.Navigate(typeof(TodoListPage));
         }
     }
 }

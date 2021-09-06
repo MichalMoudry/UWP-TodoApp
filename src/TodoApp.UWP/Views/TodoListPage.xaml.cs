@@ -32,12 +32,6 @@ namespace TodoApp.Views
         /// </summary>
         public TodoListPageViewModel ViewModel => (TodoListPageViewModel)DataContext;
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            todoList.SelectedIndex = -1;
-        }
-
         /// <summary>
         /// Event handler for to-do list ListView SelectionChanged event.
         /// </summary>
@@ -45,7 +39,11 @@ namespace TodoApp.Views
         /// <param name="e">Event parameters.</param>
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _navigationService.Navigate(typeof(TodoDetailsPage), todoList.SelectedItem as Todo, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+            if (todoList.SelectedItem != null)
+            {
+                _navigationService.Navigate(typeof(TodoDetailsPage), todoList.SelectedItem as Todo, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+                todoList.SelectedItem = null;
+            }
         }
 
         /// <summary>
