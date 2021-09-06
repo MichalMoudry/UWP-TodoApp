@@ -31,7 +31,6 @@
                 <Setter Property="ShadowOpacity" Value="0.4" />
             </Style>
 
-            <SolidColorBrush x:Key="ListViewItemBackground" Color="White" />
             <SolidColorBrush x:Key="AppBackgroundBrush" Color="#338B65" />
 
             <FontFamily x:Key="FluentUIGlyphs">/Assets/fluentui.ttf#fluentui</FontFamily>

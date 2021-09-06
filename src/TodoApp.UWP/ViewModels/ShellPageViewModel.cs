@@ -1,6 +1,6 @@
-﻿using TodoApp.Controls;
+﻿using Microsoft.Extensions.DependencyInjection;
+using TodoApp.Controls;
 using TodoApp.Services;
-using TodoApp.Views;
 
 namespace TodoApp.ViewModels
 {
@@ -22,7 +22,7 @@ namespace TodoApp.ViewModels
 
         public async void DisplaySettingsDialog()
         {
-            await _dialogService.OpenDialog("Settings", new SettingsControl(), "Cancel", "Ok");
+            await _dialogService.OpenDialog("Settings", new SettingsControl(App.Services.GetRequiredService<SettingsService>()), "Close");
         }
     }
 }

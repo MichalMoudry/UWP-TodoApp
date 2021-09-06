@@ -75,6 +75,20 @@ namespace TodoApp
                 _serviceProvider.GetRequiredService<IDataAccess>().InitializeDatabase();
                 _serviceProvider.GetRequiredService<SettingsService>().SetInitialSettings();
 
+                string theme = _serviceProvider.GetRequiredService<SettingsService>().Read<string>("themeSetting");
+                if (theme.Equals("dark"))
+                {
+                    rootFrame.RequestedTheme = ElementTheme.Dark;
+                }
+                else if (theme.Equals("light"))
+                {
+                    rootFrame.RequestedTheme = ElementTheme.Light;
+                }
+                else
+                {
+                    rootFrame.RequestedTheme = ElementTheme.Default;
+                }
+
                 CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
                 var titleBar = ApplicationView.GetForCurrentView().TitleBar;
                 titleBar.ButtonBackgroundColor = Colors.Transparent;
