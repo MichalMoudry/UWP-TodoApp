@@ -58,5 +58,23 @@ namespace TodoApp.Views
                 notification.Show(ViewModel.NotificationContent, "#FF7E7E");
             }
         }
+
+        /// <summary>
+        /// Event handler for KeyDown event on a TextBox for adding to-dos.
+        /// </summary>
+        /// <param name="sender">TextBox for adding to-dos.</param>
+        /// <param name="e">Event parameters.</param>
+        private async void TextBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter && !string.IsNullOrEmpty(todoNameTextBox.Text))
+            {
+                ViewModel.TodoName = todoNameTextBox.Text;
+                bool res = await ViewModel.AddTodo();
+                if (res)
+                {
+                    todoNameTextBox.Text = "";
+                }
+            }
+        }
     }
 }

@@ -47,7 +47,7 @@
                 Margin="0,35,20,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
-                Background="{ThemeResource SettingsButtonBackground}"
+                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                 Canvas.ZIndex="1"
                 Content="Options">
                 <muxc:DropDownButton.Flyout>
@@ -58,9 +58,9 @@
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
 
-                        <MenuFlyoutItem Click="{x:Bind ViewModel.DisplaySettingsDialog}" Text="Settings">
+                        <MenuFlyoutItem Click="{x:Bind ViewModel.DisplayAboutDialog}" Text="Settings">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB5D;" />
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA7D;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>

@@ -34,7 +34,6 @@ namespace TodoApp.Views
         private void CompletionDateView_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
         {
             System.Diagnostics.Debug.WriteLine(sender.SelectedDates.First());
-            CompletionDateButton.Flyout.Hide();
         }
     }
 }

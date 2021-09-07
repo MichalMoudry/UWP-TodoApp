@@ -68,7 +68,9 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBox
+                    x:Name="todoNameTextBox"
                     Margin="0,0,15,0"
+                    KeyDown="TextBox_KeyDown"
                     PlaceholderText="Enter to-do name..."
                     Text="{x:Bind ViewModel.TodoName, Mode=TwoWay}" />
                 <Button Grid.Column="1" Click="{x:Bind ViewModel.AddTodo}">

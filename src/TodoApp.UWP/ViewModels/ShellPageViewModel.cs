@@ -20,9 +20,9 @@ namespace TodoApp.ViewModels
             _dialogService = dialogService;
         }
 
-        public async void DisplaySettingsDialog()
+        public async void DisplayAboutDialog()
         {
-            await _dialogService.OpenDialog("Settings", new SettingsControl(App.Services.GetRequiredService<SettingsService>()), "Close");
+            await _dialogService.OpenDialog("About", null, "Close");
         }
     }
 }

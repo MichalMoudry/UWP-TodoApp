@@ -9,6 +9,25 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <Style x:Key="DetailsButtonStyle" TargetType="Button">
+            <Setter Property="Padding" Value="15" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
+
+        <Style TargetType="Flyout">
+            <Setter Property="Placement" Value="Auto" />
+        </Style>
+
+        <Style TargetType="TimePicker">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Margin" Value="0,25,0,0" />
+        </Style>
+    </Page.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -56,7 +75,7 @@
                     Margin="15,0,0,3"
                     VerticalAlignment="Center"
                     Style="{StaticResource SubtitleTextBlockStyle}"
-                    Text="Test to-do" />
+                    Text="{x:Bind ViewModel.Todo.Name, Mode=TwoWay}" />
 
                 <!--  Sub to-do textbox  -->
                 <FontIcon
@@ -67,6 +86,7 @@
                     Glyph="&#xE903;" />
 
                 <TextBox
+                    x:Name="stepTodoNameTextBox"
                     Grid.Row="1"
                     Grid.Column="1"
                     Margin="8,20,0,0"
@@ -82,19 +102,35 @@
                 BorderBrush="LightGray"
                 BorderThickness="1">
                 <!--  Reminder  -->
-                <Grid Padding="15">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                <Button Style="{StaticResource DetailsButtonStyle}">
+                    <Button.Content>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
 
-                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE908;" />
-                    <TextBlock
-                        Grid.Column="1"
-                        Margin="10,0,0,0"
-                        Text="Remind" />
-                </Grid>
+                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE908;" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="10,0,0,0"
+                                Text="Reminder" />
+                        </Grid>
+                    </Button.Content>
+
+                    <Button.Flyout>
+                        <Flyout>
+                            <StackPanel>
+                                <CalendarView
+                                    IsGroupLabelVisible="False"
+                                    IsOutOfScopeEnabled="True"
+                                    Language="en"
+                                    SelectionMode="Single" />
+                                <TimePicker ClockIdentifier="24HourClock" />
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
 
                 <Rectangle
                     Height="1"
@@ -102,18 +138,12 @@
                     Fill="LightGray" />
 
                 <!--  Completion date  -->
-                <Button
-                    x:Name="CompletionDateButton"
-                    Padding="15"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Left"
-                    BorderThickness="0">
+                <Button x:Name="CompletionDateButton" Style="{StaticResource DetailsButtonStyle}">
                     <Button.Content>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
-                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
                             <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE972;" />
@@ -135,7 +165,6 @@
                                 SelectionMode="Single" />
                         </Flyout>
                     </Button.Flyout>
-
                 </Button>
 
                 <Rectangle
@@ -144,19 +173,22 @@
                     Fill="LightGray" />
 
                 <!--  Task repeating  -->
-                <Grid Padding="15">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                <Button Style="{StaticResource DetailsButtonStyle}">
+                    <Button.Content>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
 
-                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE97F;" />
-                    <TextBlock
-                        Grid.Column="1"
-                        Margin="10,0,0,0"
-                        Text="Repeat" />
-                </Grid>
+                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE97F;" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="10,0,0,0"
+                                Text="Repeat" />
+                        </Grid>
+                    </Button.Content>
+                </Button>
             </StackPanel>
 
             <!--  To-do note  -->

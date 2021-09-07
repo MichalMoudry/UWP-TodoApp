@@ -1,6 +1,7 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using TodoApp.Shared.Enums;
 using TodoApp.Shared.Models.Entity;
 using TodoApp.Shared.Services;
@@ -63,7 +64,7 @@ namespace TodoApp.ViewModels
         /// <summary>
         /// Event handler for adding todos to database and to local observable collection.
         /// </summary>
-        public async void AddTodo()
+        public async Task<bool> AddTodo()
         {
             if (!string.IsNullOrEmpty(TodoName))
             {
@@ -75,12 +76,14 @@ namespace TodoApp.ViewModels
                 {
                     //TODO: Display error
                 }
+                return true;
             }
             else
             {
                 NotificationContent = "To-do name field must be filled...";
                 IsNotificationDisplayed = true;
                 IsNotificationDisplayed = false;
+                return false;
             }
         }
 
