@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel;
+using System.Linq;
 using TodoApp.Services;
 using TodoApp.Shared.Models.Entity;
 using TodoApp.ViewModels;
@@ -73,6 +74,7 @@ namespace TodoApp.Views
                 if (res)
                 {
                     todoNameTextBox.Text = "";
+                    todoList.ScrollIntoView(ViewModel.Todos.Last());
                 }
             }
         }
