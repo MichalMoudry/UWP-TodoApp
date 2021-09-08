@@ -73,7 +73,7 @@
                     KeyDown="TextBox_KeyDown"
                     PlaceholderText="Enter to-do name..."
                     Text="{x:Bind ViewModel.TodoName, Mode=TwoWay}" />
-                <Button Grid.Column="1" Click="{x:Bind ViewModel.AddTodo}">
+                <Button Grid.Column="1" Click="Button_Click">
                     <StackPanel Orientation="Horizontal">
                         <FontIcon
                             Margin="0,1,0,0"

@@ -92,6 +92,10 @@ namespace TodoApp.ViewModels
         /// </summary>
         public async void PageLoaded()
         {
+            if (Todos.Count > 0)
+            {
+                Todos.Clear();
+            }
             foreach (var todo in await _dataAccess.GetDataAsync(TableEnums.Todos.ToString()))
             {
                 Todos.Add((Todo)todo);

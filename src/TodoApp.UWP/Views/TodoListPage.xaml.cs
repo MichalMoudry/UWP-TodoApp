@@ -78,5 +78,19 @@ namespace TodoApp.Views
                 }
             }
         }
+
+        /// <summary>
+        /// Event handler for Button (button for adding to-dos) click event.
+        /// </summary>
+        /// <param name="sender">Button for adding to-dos.</param>
+        /// <param name="e">Event parameters.</param>
+        private async void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            bool res = await ViewModel.AddTodo();
+            if (res)
+            {
+                todoList.ScrollIntoView(ViewModel.Todos.Last());
+            }
+        }
     }
 }
