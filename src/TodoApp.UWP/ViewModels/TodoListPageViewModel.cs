@@ -1,6 +1,8 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using TodoApp.Shared.Enums;
 using TodoApp.Shared.Models.Entity;
@@ -84,6 +86,20 @@ namespace TodoApp.ViewModels
                 IsNotificationDisplayed = true;
                 IsNotificationDisplayed = false;
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Method for sorting to-dos by a specified key selector.
+        /// </summary>
+        /// <param name="keySelector">Key selector.</param>
+        public void OrderTodoList(Func<Todo, string> keySelector)
+        {
+            List<Todo> sortedCollection = new List<Todo>(Todos.OrderBy(keySelector));
+            Todos.Clear();
+            foreach (Todo todo in sortedCollection)
+            {
+                Todos.Add(todo);
             }
         }
 

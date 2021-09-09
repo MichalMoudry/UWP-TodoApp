@@ -1,0 +1,77 @@
+﻿<UserControl
+    x:Class="TodoApp.Controls.SortListControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:TodoApp.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="10,0,0,0" />
+        </Style>
+
+        <Style TargetType="RadioButton">
+            <Setter Property="Margin" Value="0,10,0,0" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+
+        <Style TargetType="FontIcon">
+            <Setter Property="Margin" Value="3,0,0,0" />
+        </Style>
+    </UserControl.Resources>
+
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <FontIcon
+                Margin="0,2,7,0"
+                FontFamily="{StaticResource FluentUIGlyphs}"
+                FontSize="25"
+                Glyph="&#xEBE3;" />
+            <TextBlock FontSize="25" Text="Sorting options" />
+        </StackPanel>
+
+        <!--  Sort by alphabetical order  -->
+        <RadioButton x:Name="alphabet" Click="RadioButton_Click">
+            <RadioButton.Content>
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE965;" />
+                    <TextBlock Text="Sort by alphabetical order" />
+                </StackPanel>
+            </RadioButton.Content>
+        </RadioButton>
+
+        <!--  Sort by is completed  -->
+        <RadioButton x:Name="completion" Click="RadioButton_Click">
+            <RadioButton.Content>
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9A2;" />
+                    <TextBlock Text="Sort by completion status" />
+                </StackPanel>
+            </RadioButton.Content>
+        </RadioButton>
+
+        <!--  Sort by date added  -->
+        <RadioButton x:Name="dateAdded" Click="RadioButton_Click">
+            <RadioButton.Content>
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE973;" />
+                    <TextBlock Text="Sort by date added" />
+                </StackPanel>
+            </RadioButton.Content>
+        </RadioButton>
+
+        <!--  Sort by date updated  -->
+        <RadioButton x:Name="dateUpdated" Click="RadioButton_Click">
+            <RadioButton.Content>
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE97F;" />
+                    <TextBlock Text="Sort by date updated" />
+                </StackPanel>
+            </RadioButton.Content>
+        </RadioButton>
+    </StackPanel>
+</UserControl>
