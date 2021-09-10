@@ -32,7 +32,7 @@ namespace TodoApp.ViewModels
         /// <summary>
         /// Event handler for a Click event. Sender: button for displaying about dialog window.
         /// </summary>
-        public async Task DisplayAboutDialog()
+        public async void DisplayAboutDialog()
         {
             await _dialogService.OpenDialog("About", null, "Close");
         }
@@ -40,13 +40,25 @@ namespace TodoApp.ViewModels
         /// <summary>
         /// Event handler for a Click event. Sender: button for displaying sorting dialog window.
         /// </summary>
-        public async Task SortListButtonClick()
+        public async void SortListButtonClick()
         {
             TodoListPageViewModel todoListPageViewModel = App.Services.GetRequiredService<TodoListPageViewModel>();
             string sortOption = await _dialogService.OpenSortDialog("Sort to-do list", new SortListControl(), "Close", "Sort");
             if (sortOption.Equals("alphabet"))
             {
                 todoListPageViewModel.OrderTodoList(i => i.Name);
+            }
+            else if (sortOption.Equals("completion"))
+            {
+                todoListPageViewModel.OrderTodoList(i => i.IsCompleted);
+            }
+            else if (sortOption.Equals("dateAdded"))
+            {
+                todoListPageViewModel.OrderTodoList(i => i.Added);
+            }
+            else if (sortOption.Equals("dateUpdated"))
+            {
+                todoListPageViewModel.OrderTodoList(i => i.Updated);
             }
         }
     }

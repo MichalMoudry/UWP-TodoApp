@@ -4,9 +4,10 @@ using System.Linq;
 using TodoApp.Services;
 using TodoApp.Shared.Models.Entity;
 using TodoApp.ViewModels;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Navigation;
 
 namespace TodoApp.Views
 {
@@ -34,6 +35,32 @@ namespace TodoApp.Views
         public TodoListPageViewModel ViewModel => (TodoListPageViewModel)DataContext;
 
         /// <summary>
+        /// Event handler for Button (button for adding to-dos) click event.
+        /// </summary>
+        /// <param name="sender">Button for adding to-dos.</param>
+        /// <param name="e">Event parameters.</param>
+        private async void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            bool res = await ViewModel.AddTodo();
+            if (res)
+            {
+                todoList.ScrollIntoView(ViewModel.Todos.Last());
+            }
+        }
+
+        /// <summary>
+        /// Grid RightTapped event handler.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">Arguments.</param>
+        private void Grid_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+        {
+            FrameworkElement element = (FrameworkElement)sender;
+            MenuFlyout attachedFlyout = (MenuFlyout)FlyoutBase.GetAttachedFlyout(element);
+            attachedFlyout.ShowAt(element, e.GetPosition(element));
+        }
+
+        /// <summary>
         /// Event handler for to-do list ListView SelectionChanged event.
         /// </summary>
         /// <param name="sender">To-do list ListView.</param>
@@ -44,19 +71,6 @@ namespace TodoApp.Views
             {
                 _navigationService.Navigate(typeof(TodoDetailsPage), todoList.SelectedItem as Todo, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
                 todoList.SelectedItem = null;
-            }
-        }
-
-        /// <summary>
-        /// Event handler for PropertyChanged event.
-        /// </summary>
-        /// <param name="sender">View model class of this page.</param>
-        /// <param name="e">Event parameters.</param>
-        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("IsNotificationDisplayed"))
-            {
-                notification.Show(ViewModel.NotificationContent, "#FF7E7E");
             }
         }
 
@@ -80,16 +94,26 @@ namespace TodoApp.Views
         }
 
         /// <summary>
-        /// Event handler for Button (button for adding to-dos) click event.
+        /// Click event handler for MenuFlyoutItem for navigating to to-do details.
         /// </summary>
-        /// <param name="sender">Button for adding to-dos.</param>
-        /// <param name="e">Event parameters.</param>
-        private async void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        /// <param name="sender">MenuFlyoutItem for navigating to to-do details.</param>
+        /// <param name="e">Event arguments.</param>
+        private void ViewDetailsMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            bool res = await ViewModel.AddTodo();
-            if (res)
+            MenuFlyoutItem menuFlyoutItem = (MenuFlyoutItem)sender;
+            _navigationService.Navigate(typeof(TodoDetailsPage), menuFlyoutItem.DataContext as Todo, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+        }
+
+        /// <summary>
+        /// Event handler for PropertyChanged event.
+        /// </summary>
+        /// <param name="sender">View model class of this page.</param>
+        /// <param name="e">Event parameters.</param>
+        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("IsNotificationDisplayed"))
             {
-                todoList.ScrollIntoView(ViewModel.Todos.Last());
+                notification.Show(ViewModel.NotificationContent, "#FF7E7E");
             }
         }
     }

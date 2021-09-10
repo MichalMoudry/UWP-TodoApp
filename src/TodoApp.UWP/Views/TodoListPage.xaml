@@ -12,6 +12,29 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <MenuFlyout x:Name="todoItemFlyout">
+            <MenuFlyoutItem Text="Delete to-do">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9ED;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Text="Set reminder">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE908;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
+                x:Name="viewDetailsMenuItem"
+                Click="ViewDetailsMenuItem_Click"
+                Text="View details">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE91F;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+        </MenuFlyout>
+    </Page.Resources>
+
     <Grid Grid.Row="1">
         <Grid Margin="20,0,20,0">
             <Grid.RowDefinitions>
@@ -30,7 +53,9 @@
                         <Grid
                             Padding="15,11,15,11"
                             Background="White"
-                            CornerRadius="5">
+                            CornerRadius="5"
+                            FlyoutBase.AttachedFlyout="{StaticResource todoItemFlyout}"
+                            RightTapped="Grid_RightTapped">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
@@ -75,10 +100,7 @@
                     Text="{x:Bind ViewModel.TodoName, Mode=TwoWay}" />
                 <Button Grid.Column="1" Click="Button_Click">
                     <StackPanel Orientation="Horizontal">
-                        <FontIcon
-                            Margin="0,1,0,0"
-                            FontFamily="{StaticResource FluentUIGlyphs}"
-                            Glyph="&#xE903;" />
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE903;" />
                         <TextBlock Margin="3,2,0,0" Text="Add to-do" />
                     </StackPanel>
                 </Button>

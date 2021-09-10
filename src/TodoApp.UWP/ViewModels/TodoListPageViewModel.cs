@@ -20,11 +20,25 @@ namespace TodoApp.ViewModels
         /// </summary>
         private readonly IDataAccess _dataAccess;
 
+        /// <summary>
+        /// Private field with a value indicating if notification is displayed.
+        /// </summary>
         private bool _isNotificationDisplayed;
 
+        /// <summary>
+        /// Private field with <see cref="Todo"/> instance.
+        /// </summary>
         private Todo _todo;
 
+        /// <summary>
+        /// Private field with a value of a new to-do's name.
+        /// </summary>
         private string _todoName;
+
+        /// <summary>
+        /// Key selector used for sorting of to-do list.
+        /// </summary>
+        private Func<Todo, object> _keySelector;
 
         /// <summary>
         /// Constructor of <see cref="TodoListPageViewModel"/> class.
@@ -76,13 +90,15 @@ namespace TodoApp.ViewModels
                 TodoName = "";
                 if (!res)
                 {
-                    //TODO: Display error
+                    NotificationContent = "Error occured during while saving to-do to database";
+                    IsNotificationDisplayed = true;
+                    IsNotificationDisplayed = false;
                 }
                 return true;
             }
             else
             {
-                NotificationContent = "To-do name field must be filled...";
+                NotificationContent = "To-do name field must be filled";
                 IsNotificationDisplayed = true;
                 IsNotificationDisplayed = false;
                 return false;
@@ -93,8 +109,9 @@ namespace TodoApp.ViewModels
         /// Method for sorting to-dos by a specified key selector.
         /// </summary>
         /// <param name="keySelector">Key selector.</param>
-        public void OrderTodoList(Func<Todo, string> keySelector)
+        public void OrderTodoList(Func<Todo, object> keySelector)
         {
+            _keySelector = keySelector;
             List<Todo> sortedCollection = new List<Todo>(Todos.OrderBy(keySelector));
             Todos.Clear();
             foreach (Todo todo in sortedCollection)
@@ -115,6 +132,11 @@ namespace TodoApp.ViewModels
             foreach (var todo in await _dataAccess.GetDataAsync(TableEnums.Todos.ToString()))
             {
                 Todos.Add((Todo)todo);
+            }
+            //If key selector was set -> sort list
+            if (_keySelector != null)
+            {
+                OrderTodoList(_keySelector);
             }
         }
     }
