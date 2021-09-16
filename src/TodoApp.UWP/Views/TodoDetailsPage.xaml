@@ -26,6 +26,18 @@
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="Margin" Value="0,25,0,0" />
         </Style>
+
+        <Style x:Key="SummaryGridStyle" TargetType="Grid">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="LightGray" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="0,10,0,10" />
+        </Style>
+
+        <Style x:Key="SummaryStackPanelStyle" TargetType="StackPanel">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Orientation" Value="Horizontal" />
+        </Style>
     </Page.Resources>
 
     <Grid>
@@ -68,7 +80,8 @@
                 <CheckBox
                     MinWidth="0"
                     Padding="0"
-                    CornerRadius="10" />
+                    CornerRadius="10"
+                    IsChecked="{x:Bind ViewModel.Todo.IsCompleted}" />
 
                 <TextBlock
                     Grid.Column="1"
@@ -191,27 +204,72 @@
                 </Button>
             </StackPanel>
 
-            <!--  To-do note  -->
-            <TextBox
-                MinHeight="100"
-                Margin="10,10,10,0"
-                AcceptsReturn="True"
-                Background="White"
-                BorderBrush="LightGray"
-                BorderThickness="1"
-                CornerRadius="0"
-                IsSpellCheckEnabled="True"
-                PlaceholderText="Add note"
-                SelectionHighlightColor="{StaticResource AppBackgroundBrush}"
-                TextWrapping="Wrap" />
-
+            <!--  Summary blocks  -->
             <Grid Margin="10,10,10,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Text="{x:Bind ViewModel.Todo.AlertDate.ToShortDateString()}" />
+                <Grid Style="{StaticResource SummaryGridStyle}">
+                    <StackPanel Style="{StaticResource SummaryStackPanelStyle}">
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE908;" />
+                        <TextBlock Text="{x:Bind ViewModel.Todo.AlertDate.ToShortDateString()}" />
+                    </StackPanel>
+                </Grid>
+
+                <Grid
+                    Grid.Column="1"
+                    BorderThickness="0,1,0,1"
+                    Style="{StaticResource SummaryGridStyle}">
+                    <StackPanel Style="{StaticResource SummaryStackPanelStyle}">
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE972;" />
+                        <TextBlock Margin="5,0,0,0" Text="{x:Bind ViewModel.Todo.AlertDate.ToShortDateString()}" />
+                    </StackPanel>
+                </Grid>
+
+                <Grid Grid.Column="2" Style="{StaticResource SummaryGridStyle}">
+                    <StackPanel Style="{StaticResource SummaryStackPanelStyle}">
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE97F;" />
+                        <TextBlock Text="{x:Bind ViewModel.Todo.AlertDate.ToShortDateString()}" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
+            <!--  To-do note  -->
+            <Grid MinHeight="120" Margin="10,10,10,0">
+                <TextBox
+                    AcceptsReturn="True"
+                    Background="White"
+                    BorderBrush="LightGray"
+                    BorderThickness="1"
+                    CornerRadius="0"
+                    IsSpellCheckEnabled="True"
+                    PlaceholderText="Add note"
+                    SelectionHighlightColor="{StaticResource AppBackgroundBrush}"
+                    TextChanged="TextBox_TextChanged"
+                    TextWrapping="Wrap" />
+
+                <Button
+                    Margin="0,0,10,10"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Click="TodoNoteTextBox_TextChanged"
+                    Style="{StaticResource AccentButtonStyle}">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon
+                                x:Name="saveNoteGlyph"
+                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                Glyph="&#xEB4A;" />
+                            <TextBlock
+                                x:Name="saveNoteButtonText"
+                                Margin="10,0,0,0"
+                                Text="Save note" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
             </Grid>
         </StackPanel>
     </Grid>

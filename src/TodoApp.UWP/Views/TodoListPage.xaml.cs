@@ -61,6 +61,19 @@ namespace TodoApp.Views
         }
 
         /// <summary>
+        /// Click event handler for to-do check box.
+        /// </summary>
+        /// <param name="sender">To-do check box.</param>
+        /// <param name="e">Event arguments.</param>
+        private async void CheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox checkBox = (CheckBox)sender;
+            Todo todo = (Todo)checkBox.DataContext;
+            todo.IsCompleted = (bool)checkBox.IsChecked;
+            await ViewModel.UpdateTodo(todo);
+        }
+
+        /// <summary>
         /// Event handler for to-do list ListView SelectionChanged event.
         /// </summary>
         /// <param name="sender">To-do list ListView.</param>

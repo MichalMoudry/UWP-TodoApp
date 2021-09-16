@@ -65,7 +65,9 @@
                             <CheckBox
                                 MinWidth="0"
                                 Padding="0"
-                                CornerRadius="10" />
+                                Click="CheckBox_Click"
+                                CornerRadius="10"
+                                IsChecked="{x:Bind IsCompleted}" />
 
                             <TextBlock
                                 Grid.Column="1"

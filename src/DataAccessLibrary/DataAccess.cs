@@ -41,7 +41,7 @@ namespace DataAccessLibrary
                     };
                     if (entity is Todo todo)
                     {
-                        _sqliteCommand.CommandText += "(@Id, @IsCompleted, @Name, @Added, @Updated, @AlertDate);";
+                        _sqliteCommand.CommandText += $"(@Id, @IsCompleted, @Name, @Added, @Updated, @AlertDate);";
                         _ = _sqliteCommand.Parameters.AddWithValue("@Id", todo.Id);
                         _ = _sqliteCommand.Parameters.AddWithValue("@IsCompleted", Convert.ToInt16(todo.IsCompleted));
                         _ = _sqliteCommand.Parameters.AddWithValue("@Name", todo.Name);
@@ -129,7 +129,7 @@ namespace DataAccessLibrary
                 string tableCommand;
 
                 tableCommand = $"CREATE TABLE IF NOT EXISTS {TableEnums.Todos} (" +
-                    "TodoId VARCHAR2 PRIMARY KEY, " +
+                    "Id VARCHAR2 PRIMARY KEY, " +
                     "IsCompleted CHAR(1) NOT NULL, " +
                     "Name VARCHAR2(4000) NOT NULL, " +
                     "Added DATE NOT NULL, " +
@@ -141,7 +141,7 @@ namespace DataAccessLibrary
                 _ = _sqliteCommand.ExecuteReader();
 
                 tableCommand = $"CREATE TABLE IF NOT EXISTS {TableEnums.SubTodos} (" +
-                    "SubTodoId VARCHAR2 PRIMARY KEY, " +
+                    "Id VARCHAR2 PRIMARY KEY, " +
                     "TodoId VARCHAR2(4000), " +
                     "IsCompleted CHAR(1) NOT NULL, " +
                     "Name VARCHAR2(4000) NOT NULL, " +
@@ -158,7 +158,27 @@ namespace DataAccessLibrary
         /// <inheritdoc/>
         public async Task<bool> UpdateDataAsync(Entity entity, string tableName)
         {
-            await Task.Delay(1000);
+            using (SqliteConnection db = new SqliteConnection($"Filename={_dbPath}"))
+            {
+                db.Open();
+                _sqliteCommand = new SqliteCommand()
+                {
+                    CommandText = $"UPDATE {tableName} SET Updated=@Updated, ",
+                    Connection = db
+                };
+                _ = _sqliteCommand.Parameters.AddWithValue("@Updated", entity.Updated);
+                if (entity is Todo todo)
+                {
+                    _sqliteCommand.CommandText += "IsCompleted=@IsCompleted, Name=@Name, AlertDate=@AlertDate";
+                    _ = _sqliteCommand.Parameters.AddWithValue("@Name", todo.Name);
+                    _ = _sqliteCommand.Parameters.AddWithValue("@IsCompleted", Convert.ToInt16(todo.IsCompleted));
+                    _ = _sqliteCommand.Parameters.AddWithValue("@AlertDate", todo.AlertDate);
+                }
+                _sqliteCommand.CommandText += " WHERE Id=@Id;";
+                _ = _sqliteCommand.Parameters.AddWithValue("@Id", entity.Id);
+                _ = await _sqliteCommand.ExecuteReaderAsync();
+                db.Close();
+            }
             return true;
         }
     }

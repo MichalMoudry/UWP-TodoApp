@@ -26,6 +26,11 @@ namespace TodoApp.ViewModels
         private bool _isNotificationDisplayed;
 
         /// <summary>
+        /// Key selector used for sorting of to-do list.
+        /// </summary>
+        private Func<Todo, object> _keySelector;
+
+        /// <summary>
         /// Private field with <see cref="Todo"/> instance.
         /// </summary>
         private Todo _todo;
@@ -34,11 +39,6 @@ namespace TodoApp.ViewModels
         /// Private field with a value of a new to-do's name.
         /// </summary>
         private string _todoName;
-
-        /// <summary>
-        /// Key selector used for sorting of to-do list.
-        /// </summary>
-        private Func<Todo, object> _keySelector;
 
         /// <summary>
         /// Constructor of <see cref="TodoListPageViewModel"/> class.
@@ -85,22 +85,19 @@ namespace TodoApp.ViewModels
             if (!string.IsNullOrEmpty(TodoName))
             {
                 _todo = new Todo() { Id = Guid.NewGuid().ToString(), Name = TodoName, IsCompleted = false, Added = DateTime.Now, Updated = DateTime.Now };
-                Todos.Add(_todo);
                 bool res = await _dataAccess.AddDataAsync(_todo, TableEnums.Todos.ToString());
                 TodoName = "";
                 if (!res)
                 {
-                    NotificationContent = "Error occured during while saving to-do to database";
-                    IsNotificationDisplayed = true;
-                    IsNotificationDisplayed = false;
+                    DisplayNotification("Error occured during while saving");
+                    return false;
                 }
+                Todos.Add(_todo);
                 return true;
             }
             else
             {
-                NotificationContent = "To-do name field must be filled";
-                IsNotificationDisplayed = true;
-                IsNotificationDisplayed = false;
+                DisplayNotification("To-do name field must be filled");
                 return false;
             }
         }
@@ -138,6 +135,30 @@ namespace TodoApp.ViewModels
             {
                 OrderTodoList(_keySelector);
             }
+        }
+
+        /// <summary>
+        /// Event handler for updating todo in a database.
+        /// </summary>
+        /// <param name="todo">Todo class instance with new data.</param>
+        public async Task UpdateTodo(Todo todo)
+        {
+            bool res = await _dataAccess.UpdateDataAsync(todo, TableEnums.Todos.ToString());
+            if (!res)
+            {
+                DisplayNotification("Error occured during update");
+            }
+        }
+
+        /// <summary>
+        /// Method for displaying a notification on TodoList page.
+        /// </summary>
+        /// <param name="message">Message that will be displayed.</param>
+        private void DisplayNotification(string message)
+        {
+            NotificationContent = message;
+            IsNotificationDisplayed = true;
+            IsNotificationDisplayed = false;
         }
     }
 }
