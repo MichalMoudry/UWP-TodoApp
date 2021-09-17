@@ -39,17 +39,21 @@ namespace DataAccessLibrary
                         Connection = db,
                         CommandText = $"INSERT INTO {tableName} VALUES "
                     };
+                    List<SqliteParameter> parameters = new List<SqliteParameter>();
                     if (entity is Todo todo)
                     {
-                        _sqliteCommand.CommandText += $"(@Id, @IsCompleted, @Name, @Added, @Updated, @AlertDate);";
-                        _ = _sqliteCommand.Parameters.AddWithValue("@Id", todo.Id);
-                        _ = _sqliteCommand.Parameters.AddWithValue("@IsCompleted", Convert.ToInt16(todo.IsCompleted));
-                        _ = _sqliteCommand.Parameters.AddWithValue("@Name", todo.Name);
-                        _ = _sqliteCommand.Parameters.AddWithValue("@Added", todo.Added);
-                        _ = _sqliteCommand.Parameters.AddWithValue("@Updated", todo.Updated);
-                        _ = _sqliteCommand.Parameters.AddWithValue("@AlertDate", todo.AlertDate);
+                        _sqliteCommand.CommandText += $"(@Id, @IsCompleted, @Name, @Added, @Updated, @AlertDate, @CompletetionDate, @Repetition);";
+                        parameters.Add(new SqliteParameter("@Id", todo.Id));
+                        parameters.Add(new SqliteParameter("@IsCompleted", Convert.ToInt16(todo.IsCompleted)));
+                        parameters.Add(new SqliteParameter("@Name", todo.Name));
+                        parameters.Add(new SqliteParameter("@Added", todo.Added));
+                        parameters.Add(new SqliteParameter("@Updated", todo.Updated));
+                        parameters.Add(new SqliteParameter("@AlertDate", todo.AlertDate));
+                        parameters.Add(new SqliteParameter("@CompletetionDate", todo.CompletetionDate));
+                        parameters.Add(new SqliteParameter("@Repetition", Convert.ToInt16(todo.Repetition)));
+                        _sqliteCommand.Parameters.AddRange(parameters.ToArray());
                     }
-                    _ = await _sqliteCommand.ExecuteReaderAsync();
+                    var test = await _sqliteCommand.ExecuteReaderAsync();
                     db.Close();
                 }
                 return true;
@@ -101,7 +105,9 @@ namespace DataAccessLibrary
                             Name = query.GetString(2),
                             Added = query.GetDateTime(3),
                             Updated = query.GetDateTime(4),
-                            AlertDate = query.GetDateTime(5)
+                            AlertDate = query.GetDateTime(5),
+                            CompletetionDate = query.GetDateTime(6),
+                            Repetition = (TodoRepetition)query.GetInt16(7)
                         });
                     }
                 }
@@ -134,7 +140,9 @@ namespace DataAccessLibrary
                     "Name VARCHAR2(4000) NOT NULL, " +
                     "Added DATE NOT NULL, " +
                     "Updated DATE NOT NULL, " + 
-                    "AlertDate DATE NOT NULL)";
+                    "AlertDate DATE NOT NULL, " +
+                    "CompletetionDate DATE NOT NULL, " +
+                    "Repetition CHAR(1) NULL)";
 
                 _sqliteCommand = new SqliteCommand(tableCommand, db);
 

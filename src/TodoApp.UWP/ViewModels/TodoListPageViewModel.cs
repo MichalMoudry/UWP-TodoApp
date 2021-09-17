@@ -93,6 +93,11 @@ namespace TodoApp.ViewModels
                     return false;
                 }
                 Todos.Add(_todo);
+                //If key selector was set -> sort list
+                if (_keySelector != null)
+                {
+                    OrderTodoList(_keySelector);
+                }
                 return true;
             }
             else

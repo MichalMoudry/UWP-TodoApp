@@ -121,6 +121,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Enums\TableEnums.cs" />
+    <Compile Include="Enums\TodoRepetition.cs" />
     <Compile Include="Models\Entity\SubTodo.cs" />
     <Compile Include="Models\Entity\Todo.cs" />
     <Compile Include="Models\Extensions\Entity.cs" />

@@ -2,11 +2,11 @@
     x:Class="TodoApp.Views.TodoDetailsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:TodoApp.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:TodoApp.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    NavigationCacheMode="Enabled"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -30,7 +30,7 @@
         <Style x:Key="SummaryGridStyle" TargetType="Grid">
             <Setter Property="Background" Value="White" />
             <Setter Property="BorderBrush" Value="LightGray" />
-            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderThickness" Value="1,0,1,1" />
             <Setter Property="Padding" Value="0,10,0,10" />
         </Style>
 
@@ -38,6 +38,8 @@
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="Orientation" Value="Horizontal" />
         </Style>
+
+        <converters:DateToStringConverter x:Key="DateToStringConverter" />
     </Page.Resources>
 
     <Grid>
@@ -127,7 +129,7 @@
                             <TextBlock
                                 Grid.Column="1"
                                 Margin="10,0,0,0"
-                                Text="Reminder" />
+                                Text="Set reminder" />
                         </Grid>
                     </Button.Content>
 
@@ -198,14 +200,14 @@
                             <TextBlock
                                 Grid.Column="1"
                                 Margin="10,0,0,0"
-                                Text="Repeat" />
+                                Text="Set repetition" />
                         </Grid>
                     </Button.Content>
                 </Button>
             </StackPanel>
 
             <!--  Summary blocks  -->
-            <Grid Margin="10,10,10,0">
+            <Grid Margin="10,0,10,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
@@ -215,24 +217,24 @@
                 <Grid Style="{StaticResource SummaryGridStyle}">
                     <StackPanel Style="{StaticResource SummaryStackPanelStyle}">
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE908;" />
-                        <TextBlock Text="{x:Bind ViewModel.Todo.AlertDate.ToShortDateString()}" />
+                        <TextBlock Margin="7,0,0,0" Text="{x:Bind ViewModel.Todo.AlertDate, Converter={StaticResource DateToStringConverter}}" />
                     </StackPanel>
                 </Grid>
 
                 <Grid
                     Grid.Column="1"
-                    BorderThickness="0,1,0,1"
+                    BorderThickness="0,0,0,1"
                     Style="{StaticResource SummaryGridStyle}">
                     <StackPanel Style="{StaticResource SummaryStackPanelStyle}">
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE972;" />
-                        <TextBlock Margin="5,0,0,0" Text="{x:Bind ViewModel.Todo.AlertDate.ToShortDateString()}" />
+                        <TextBlock Margin="7,0,0,0" Text="{x:Bind ViewModel.Todo.AlertDate, Converter={StaticResource DateToStringConverter}}" />
                     </StackPanel>
                 </Grid>
 
                 <Grid Grid.Column="2" Style="{StaticResource SummaryGridStyle}">
                     <StackPanel Style="{StaticResource SummaryStackPanelStyle}">
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE97F;" />
-                        <TextBlock Text="{x:Bind ViewModel.Todo.AlertDate.ToShortDateString()}" />
+                        <TextBlock Margin="7,0,0,0" Text="{x:Bind ViewModel.Todo.AlertDate, Converter={StaticResource DateToStringConverter}}" />
                     </StackPanel>
                 </Grid>
             </Grid>
@@ -248,14 +250,14 @@
                     IsSpellCheckEnabled="True"
                     PlaceholderText="Add note"
                     SelectionHighlightColor="{StaticResource AppBackgroundBrush}"
-                    TextChanged="TextBox_TextChanged"
+                    TextChanged="TodoNoteTextBox_TextChanged"
                     TextWrapping="Wrap" />
 
                 <Button
                     Margin="0,0,10,10"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
-                    Click="TodoNoteTextBox_TextChanged"
+                    Click="SaveNoteButton_Click"
                     Style="{StaticResource AccentButtonStyle}">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
