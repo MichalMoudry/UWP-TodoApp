@@ -53,7 +53,7 @@ namespace DataAccessLibrary
                         parameters.Add(new SqliteParameter("@Repetition", Convert.ToInt16(todo.Repetition)));
                         _sqliteCommand.Parameters.AddRange(parameters.ToArray());
                     }
-                    var test = await _sqliteCommand.ExecuteReaderAsync();
+                    _ = await _sqliteCommand.ExecuteReaderAsync();
                     db.Close();
                 }
                 return true;
@@ -74,15 +74,33 @@ namespace DataAccessLibrary
         /// <inheritdoc/>
         public async Task<bool> DeleteDataAsync(string id, string tableName)
         {
-            await Task.Delay(1000);
-            return true;
+            try
+            {
+                using (SqliteConnection db = new SqliteConnection($"Filename={_dbPath}"))
+                {
+                    db.Open();
+                    _sqliteCommand = new SqliteCommand($"DELETE FROM {tableName} WHERE Id=@Id", db);
+                    _ = _sqliteCommand.Parameters.AddWithValue("@Id", id);
+                    _ = await _sqliteCommand.ExecuteNonQueryAsync();
+                    db.Close();
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         /// <inheritdoc/>
         public async Task<bool> DeleteMultipleEntitiesAsync(List<Entity> entities, string tableName)
         {
-            await Task.Delay(1000);
-            return true;
+            bool res = false;
+            foreach (Entity entity in entities)
+            {
+                res = await DeleteDataAsync(entity.Id, tableName);
+            }
+            return res;
         }
 
         /// <inheritdoc/>
@@ -155,7 +173,7 @@ namespace DataAccessLibrary
                     "Name VARCHAR2(4000) NOT NULL, " +
                     "Added DATE NOT NULL, " +
                     "Updated DATE NOT NULL, " +
-                    "FOREIGN KEY (TodoId) REFERENCES Todos (TodoId) ON DELETE CASCADE)";
+                    "FOREIGN KEY (TodoId) REFERENCES Todos (Id) ON DELETE CASCADE)";
 
                 _sqliteCommand = new SqliteCommand(tableCommand, db);
 

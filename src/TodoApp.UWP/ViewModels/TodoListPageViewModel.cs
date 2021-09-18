@@ -108,6 +108,23 @@ namespace TodoApp.ViewModels
         }
 
         /// <summary>
+        /// Method for deleting a to-do.
+        /// </summary>
+        /// <param name="todo">To-do that will be deleted.</param>
+        public async Task DeleteTodo(Todo todo)
+        {
+            bool res = await _dataAccess.DeleteDataAsync(todo.Id, TableEnums.Todos.ToString());
+            if (!res)
+            {
+                DisplayNotification("Error occured during deletion");
+            }
+            else
+            {
+                _ = Todos.Remove(todo);
+            }
+        }
+
+        /// <summary>
         /// Method for sorting to-dos by a specified key selector.
         /// </summary>
         /// <param name="keySelector">Key selector.</param>

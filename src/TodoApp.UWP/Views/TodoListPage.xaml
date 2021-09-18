@@ -14,7 +14,7 @@
 
     <Page.Resources>
         <MenuFlyout x:Name="todoItemFlyout">
-            <MenuFlyoutItem Text="Delete to-do">
+            <MenuFlyoutItem Click="DeleteTodoButton_Click" Text="Delete to-do">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9ED;" />
                 </MenuFlyoutItem.Icon>
@@ -33,6 +33,13 @@
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
         </MenuFlyout>
+
+        <Style x:Key="TodoListItemStyle" TargetType="Grid">
+            <Setter Property="Padding" Value="15,11,15,11" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="CornerRadius" Value="5" />
+            <Setter Property="FlyoutBase.AttachedFlyout" Value="{StaticResource todoItemFlyout}" />
+        </Style>
     </Page.Resources>
 
     <Grid Grid.Row="1">
@@ -50,12 +57,7 @@
                 <!--  Item template  -->
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="entities:Todo">
-                        <Grid
-                            Padding="15,11,15,11"
-                            Background="White"
-                            CornerRadius="5"
-                            FlyoutBase.AttachedFlyout="{StaticResource todoItemFlyout}"
-                            RightTapped="Grid_RightTapped">
+                        <Grid RightTapped="Grid_RightTapped" Style="{StaticResource TodoListItemStyle}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />

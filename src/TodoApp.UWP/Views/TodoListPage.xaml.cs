@@ -49,6 +49,17 @@ namespace TodoApp.Views
         }
 
         /// <summary>
+        /// Click event handler for MenuFlyoutItem used for deleting to-dos.
+        /// </summary>
+        /// <param name="sender">MenuFlyoutItem used for deleting to-dos.</param>
+        /// <param name="e">Event arguments.</param>
+        private async void DeleteTodoButton_Click(object sender, RoutedEventArgs e)
+        {
+            MenuFlyoutItem menuFlyoutItem = (MenuFlyoutItem)sender;
+            await ViewModel.DeleteTodo(menuFlyoutItem.DataContext as Todo);
+        }
+
+        /// <summary>
         /// Grid RightTapped event handler.
         /// </summary>
         /// <param name="sender">Sender.</param>
