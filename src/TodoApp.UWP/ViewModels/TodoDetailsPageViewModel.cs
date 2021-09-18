@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System.Threading.Tasks;
-using TodoApp.Shared.Services;
 using TodoApp.Services;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+using TodoApp.Shared.Enums;
 using TodoApp.Shared.Models.Entity;
+using TodoApp.Shared.Services;
 
 namespace TodoApp.ViewModels
 {
@@ -43,6 +40,15 @@ namespace TodoApp.ViewModels
         {
             get => _todo;
             set => SetProperty(ref _todo, value);
+        }
+
+        /// <summary>
+        /// Method for inverting completion status of a to-do.
+        /// </summary>
+        public async Task CheckTodo()
+        {
+            Todo.IsCompleted = !Todo.IsCompleted;
+            _ = await _dataAccess.UpdateDataAsync(Todo, TableEnums.Todos.ToString());
         }
 
         /// <summary>

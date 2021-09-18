@@ -42,7 +42,7 @@ namespace DataAccessLibrary
                     List<SqliteParameter> parameters = new List<SqliteParameter>();
                     if (entity is Todo todo)
                     {
-                        _sqliteCommand.CommandText += $"(@Id, @IsCompleted, @Name, @Added, @Updated, @AlertDate, @CompletetionDate, @Repetition);";
+                        _sqliteCommand.CommandText += $"(@Id, @IsCompleted, @Name, @Added, @Updated, @AlertDate, @CompletetionDate, @Repetition, @Note);";
                         parameters.Add(new SqliteParameter("@Id", todo.Id));
                         parameters.Add(new SqliteParameter("@IsCompleted", Convert.ToInt16(todo.IsCompleted)));
                         parameters.Add(new SqliteParameter("@Name", todo.Name));
@@ -51,6 +51,7 @@ namespace DataAccessLibrary
                         parameters.Add(new SqliteParameter("@AlertDate", todo.AlertDate));
                         parameters.Add(new SqliteParameter("@CompletetionDate", todo.CompletetionDate));
                         parameters.Add(new SqliteParameter("@Repetition", Convert.ToInt16(todo.Repetition)));
+                        parameters.Add(new SqliteParameter("@Note", todo.Note));
                         _sqliteCommand.Parameters.AddRange(parameters.ToArray());
                     }
                     _ = await _sqliteCommand.ExecuteReaderAsync();
@@ -125,7 +126,8 @@ namespace DataAccessLibrary
                             Updated = query.GetDateTime(4),
                             AlertDate = query.GetDateTime(5),
                             CompletetionDate = query.GetDateTime(6),
-                            Repetition = (TodoRepetition)query.GetInt16(7)
+                            Repetition = (TodoRepetition)query.GetInt16(7),
+                            Note = query.GetString(8)
                         });
                     }
                 }
@@ -160,7 +162,8 @@ namespace DataAccessLibrary
                     "Updated DATE NOT NULL, " + 
                     "AlertDate DATE NOT NULL, " +
                     "CompletetionDate DATE NOT NULL, " +
-                    "Repetition CHAR(1) NULL)";
+                    "Repetition CHAR(1) NULL, " +
+                    "Note VARCHAR2(4000) NULL)";
 
                 _sqliteCommand = new SqliteCommand(tableCommand, db);
 
@@ -195,10 +198,11 @@ namespace DataAccessLibrary
                 _ = _sqliteCommand.Parameters.AddWithValue("@Updated", entity.Updated);
                 if (entity is Todo todo)
                 {
-                    _sqliteCommand.CommandText += "IsCompleted=@IsCompleted, Name=@Name, AlertDate=@AlertDate";
+                    _sqliteCommand.CommandText += "IsCompleted=@IsCompleted, Name=@Name, AlertDate=@AlertDate, Note=@Note";
                     _ = _sqliteCommand.Parameters.AddWithValue("@Name", todo.Name);
                     _ = _sqliteCommand.Parameters.AddWithValue("@IsCompleted", Convert.ToInt16(todo.IsCompleted));
                     _ = _sqliteCommand.Parameters.AddWithValue("@AlertDate", todo.AlertDate);
+                    _ = _sqliteCommand.Parameters.AddWithValue("@Note", todo.Note);
                 }
                 _sqliteCommand.CommandText += " WHERE Id=@Id;";
                 _ = _sqliteCommand.Parameters.AddWithValue("@Id", entity.Id);

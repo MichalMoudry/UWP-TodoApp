@@ -13,6 +13,8 @@ namespace TodoApp.Shared.Models.Entity
 
         public string Name { get; set; }
 
+        public string Note { get; set; }
+
         public TodoRepetition Repetition { get; set; }
     }
 }

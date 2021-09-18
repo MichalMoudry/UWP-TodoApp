@@ -82,6 +82,7 @@
                 <CheckBox
                     MinWidth="0"
                     Padding="0"
+                    Click="{x:Bind ViewModel.CheckTodo}"
                     CornerRadius="10"
                     IsChecked="{x:Bind ViewModel.Todo.IsCompleted}" />
 
