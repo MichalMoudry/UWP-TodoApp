@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:TodoApp.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:entities="using:TodoApp.Shared.Models.Entity"
     xmlns:local="using:TodoApp.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -63,217 +64,256 @@
         </Grid>
 
         <!--  To-do details  -->
-        <StackPanel Grid.Row="1">
-            <Grid
-                Padding="15,20,15,20"
-                Background="White"
-                BorderBrush="LightGray"
-                BorderThickness="0,0,0,1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+        <ScrollViewer Grid.Row="1">
+            <StackPanel>
+                <Grid
+                    Padding="15,20,15,20"
+                    Background="White"
+                    BorderBrush="LightGray"
+                    BorderThickness="0,0,0,1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
-                <CheckBox
-                    MinWidth="0"
-                    Padding="0"
-                    Click="{x:Bind ViewModel.CheckTodo}"
-                    CornerRadius="10"
-                    IsChecked="{x:Bind ViewModel.Todo.IsCompleted}" />
+                    <CheckBox
+                        MinWidth="0"
+                        Padding="0"
+                        Click="{x:Bind ViewModel.CheckTodo}"
+                        CornerRadius="10"
+                        IsChecked="{x:Bind ViewModel.Todo.IsCompleted}" />
 
-                <TextBlock
-                    Grid.Column="1"
-                    Margin="15,0,0,3"
-                    VerticalAlignment="Center"
-                    Style="{StaticResource SubtitleTextBlockStyle}"
-                    Text="{x:Bind ViewModel.Todo.Name, Mode=TwoWay}" />
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="15,0,0,3"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource SubtitleTextBlockStyle}"
+                        Text="{x:Bind ViewModel.Todo.Name, Mode=TwoWay}" />
 
-                <!--  Sub to-do textbox  -->
-                <FontIcon
-                    Grid.Row="1"
-                    Margin="0,20,0,0"
-                    FontFamily="{StaticResource FluentUIGlyphs}"
-                    Foreground="CornflowerBlue"
-                    Glyph="&#xE903;" />
+                    <!--  Sub to-do textbox  -->
+                    <FontIcon
+                        Grid.Row="1"
+                        Margin="0,20,0,0"
+                        FontFamily="{StaticResource FluentUIGlyphs}"
+                        Foreground="CornflowerBlue"
+                        Glyph="&#xE903;" />
 
-                <TextBox
-                    x:Name="stepTodoNameTextBox"
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Margin="8,20,0,0"
-                    BorderThickness="0"
-                    CornerRadius="0"
-                    PlaceholderForeground="CornflowerBlue"
-                    PlaceholderText="Add a step" />
-            </Grid>
+                    <TextBox
+                        x:Name="subTodoNameTextBox"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="8,20,0,0"
+                        BorderThickness="0"
+                        CornerRadius="0"
+                        KeyDown="SubTodoNameTextBox_KeyDown"
+                        PlaceholderForeground="CornflowerBlue"
+                        PlaceholderText="Add a step"
+                        Text="{x:Bind ViewModel.SubTodoName, Mode=TwoWay}" />
+                </Grid>
 
-            <StackPanel
-                Margin="10,10,10,0"
-                Background="White"
-                BorderBrush="LightGray"
-                BorderThickness="1">
-                <!--  Reminder  -->
-                <Button Style="{StaticResource DetailsButtonStyle}">
-                    <Button.Content>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
+                <StackPanel
+                    Margin="10,10,10,0"
+                    Background="White"
+                    BorderBrush="LightGray"
+                    BorderThickness="1">
+                    <TextBlock
+                        Margin="15,5,0,5"
+                        Style="{StaticResource SubtitleTextBlockStyle}"
+                        Text="Sub to-dos" />
+                    <ListView ItemsSource="{x:Bind ViewModel.SubTodos}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="entities:SubTodo">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
 
-                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE908;" />
-                            <TextBlock
-                                Grid.Column="1"
-                                Margin="10,0,0,0"
-                                Text="Set reminder" />
-                        </Grid>
-                    </Button.Content>
+                                    <CheckBox
+                                        MinWidth="0"
+                                        Padding="0"
+                                        CornerRadius="10"
+                                        IsChecked="{x:Bind IsCompleted}" />
 
-                    <Button.Flyout>
-                        <Flyout>
-                            <StackPanel>
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Margin="15,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="{x:Bind Name}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+
+                <StackPanel
+                    Margin="10,10,10,0"
+                    Background="White"
+                    BorderBrush="LightGray"
+                    BorderThickness="1">
+                    <!--  Reminder  -->
+                    <Button Style="{StaticResource DetailsButtonStyle}">
+                        <Button.Content>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE908;" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Margin="10,0,0,0"
+                                    Text="Set reminder" />
+                            </Grid>
+                        </Button.Content>
+
+                        <Button.Flyout>
+                            <Flyout>
+                                <StackPanel>
+                                    <CalendarView
+                                        IsGroupLabelVisible="False"
+                                        IsOutOfScopeEnabled="True"
+                                        Language="en"
+                                        SelectionMode="Single" />
+                                    <TimePicker ClockIdentifier="24HourClock" />
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+
+                    <Rectangle
+                        Height="1"
+                        Margin="45,0,0,0"
+                        Fill="LightGray" />
+
+                    <!--  Completion date  -->
+                    <Button x:Name="CompletionDateButton" Style="{StaticResource DetailsButtonStyle}">
+                        <Button.Content>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE972;" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Margin="10,0,0,0"
+                                    Text="Add completion date" />
+                            </Grid>
+                        </Button.Content>
+
+                        <Button.Flyout>
+                            <Flyout>
                                 <CalendarView
+                                    x:Name="CompletionDateView"
                                     IsGroupLabelVisible="False"
                                     IsOutOfScopeEnabled="True"
                                     Language="en"
+                                    SelectedDatesChanged="CompletionDateView_SelectedDatesChanged"
                                     SelectionMode="Single" />
-                                <TimePicker ClockIdentifier="24HourClock" />
-                            </StackPanel>
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
 
-                <Rectangle
-                    Height="1"
-                    Margin="45,0,0,0"
-                    Fill="LightGray" />
+                    <Rectangle
+                        Height="1"
+                        Margin="45,0,0,0"
+                        Fill="LightGray" />
 
-                <!--  Completion date  -->
-                <Button x:Name="CompletionDateButton" Style="{StaticResource DetailsButtonStyle}">
-                    <Button.Content>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
+                    <!--  Task repeating  -->
+                    <Button Style="{StaticResource DetailsButtonStyle}">
+                        <Button.Content>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
 
-                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE972;" />
-                            <TextBlock
-                                Grid.Column="1"
-                                Margin="10,0,0,0"
-                                Text="Add completion date" />
-                        </Grid>
-                    </Button.Content>
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE97F;" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Margin="10,0,0,0"
+                                    Text="Set repetition" />
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
 
-                    <Button.Flyout>
-                        <Flyout>
-                            <CalendarView
-                                x:Name="CompletionDateView"
-                                IsGroupLabelVisible="False"
-                                IsOutOfScopeEnabled="True"
-                                Language="en"
-                                SelectedDatesChanged="CompletionDateView_SelectedDatesChanged"
-                                SelectionMode="Single" />
-                        </Flyout>
-                    </Button.Flyout>
-                </Button>
+                <!--  Summary blocks  -->
+                <Grid Margin="10,0,10,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
 
-                <Rectangle
-                    Height="1"
-                    Margin="45,0,0,0"
-                    Fill="LightGray" />
-
-                <!--  Task repeating  -->
-                <Button Style="{StaticResource DetailsButtonStyle}">
-                    <Button.Content>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-
-                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE97F;" />
-                            <TextBlock
-                                Grid.Column="1"
-                                Margin="10,0,0,0"
-                                Text="Set repetition" />
-                        </Grid>
-                    </Button.Content>
-                </Button>
-            </StackPanel>
-
-            <!--  Summary blocks  -->
-            <Grid Margin="10,0,10,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-
-                <Grid Style="{StaticResource SummaryGridStyle}">
-                    <StackPanel Style="{StaticResource SummaryStackPanelStyle}">
-                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE908;" />
-                        <TextBlock Margin="7,0,0,0" Text="{x:Bind ViewModel.Todo.AlertDate, Converter={StaticResource DateToStringConverter}}" />
-                    </StackPanel>
-                </Grid>
-
-                <Grid
-                    Grid.Column="1"
-                    BorderThickness="0,0,0,1"
-                    Style="{StaticResource SummaryGridStyle}">
-                    <StackPanel Style="{StaticResource SummaryStackPanelStyle}">
-                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE972;" />
-                        <TextBlock Margin="7,0,0,0" Text="{x:Bind ViewModel.Todo.AlertDate, Converter={StaticResource DateToStringConverter}}" />
-                    </StackPanel>
-                </Grid>
-
-                <Grid Grid.Column="2" Style="{StaticResource SummaryGridStyle}">
-                    <StackPanel Style="{StaticResource SummaryStackPanelStyle}">
-                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE97F;" />
-                        <TextBlock Margin="7,0,0,0" Text="{x:Bind ViewModel.Todo.AlertDate, Converter={StaticResource DateToStringConverter}}" />
-                    </StackPanel>
-                </Grid>
-            </Grid>
-
-            <!--  To-do note  -->
-            <Grid MinHeight="120" Margin="10,10,10,0">
-                <TextBox
-                    AcceptsReturn="True"
-                    Background="White"
-                    BorderBrush="LightGray"
-                    BorderThickness="1"
-                    CornerRadius="0"
-                    IsSpellCheckEnabled="True"
-                    PlaceholderText="Add note"
-                    SelectionHighlightColor="{StaticResource AppBackgroundBrush}"
-                    TextChanged="TodoNoteTextBox_TextChanged"
-                    TextWrapping="Wrap" />
-
-                <Button
-                    Margin="0,0,10,10"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom"
-                    Click="SaveNoteButton_Click"
-                    Style="{StaticResource AccentButtonStyle}">
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <FontIcon
-                                x:Name="saveNoteGlyph"
-                                FontFamily="{StaticResource FluentUIGlyphs}"
-                                Glyph="&#xEB4A;" />
-                            <TextBlock
-                                x:Name="saveNoteButtonText"
-                                Margin="10,0,0,0"
-                                Text="Save note" />
+                    <Grid Style="{StaticResource SummaryGridStyle}">
+                        <StackPanel Style="{StaticResource SummaryStackPanelStyle}">
+                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE908;" />
+                            <TextBlock Margin="7,0,0,0" Text="{x:Bind ViewModel.Todo.AlertDate, Converter={StaticResource DateToStringConverter}}" />
                         </StackPanel>
-                    </Button.Content>
-                </Button>
-            </Grid>
-        </StackPanel>
+                    </Grid>
+
+                    <Grid
+                        Grid.Column="1"
+                        BorderThickness="0,0,0,1"
+                        Style="{StaticResource SummaryGridStyle}">
+                        <StackPanel Style="{StaticResource SummaryStackPanelStyle}">
+                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE972;" />
+                            <TextBlock Margin="7,0,0,0" Text="{x:Bind ViewModel.Todo.AlertDate, Converter={StaticResource DateToStringConverter}}" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Column="2" Style="{StaticResource SummaryGridStyle}">
+                        <StackPanel Style="{StaticResource SummaryStackPanelStyle}">
+                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE97F;" />
+                            <TextBlock Margin="7,0,0,0" Text="{x:Bind ViewModel.Todo.AlertDate, Converter={StaticResource DateToStringConverter}}" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+
+                <!--  To-do note  -->
+                <Grid MinHeight="120" Margin="10">
+                    <TextBox
+                        AcceptsReturn="True"
+                        Background="White"
+                        BorderBrush="LightGray"
+                        BorderThickness="1"
+                        CornerRadius="0"
+                        IsSpellCheckEnabled="True"
+                        PlaceholderText="Add note"
+                        SelectionHighlightColor="{StaticResource AppBackgroundBrush}"
+                        TextChanged="TodoNoteTextBox_TextChanged"
+                        TextWrapping="Wrap" />
+
+                    <Button
+                        Margin="0,0,10,10"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Click="SaveNoteButton_Click"
+                        Style="{StaticResource AccentButtonStyle}">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <FontIcon
+                                    x:Name="saveNoteGlyph"
+                                    FontFamily="{StaticResource FluentUIGlyphs}"
+                                    Glyph="&#xEB4A;" />
+                                <TextBlock
+                                    x:Name="saveNoteButtonText"
+                                    Margin="10,0,0,0"
+                                    Text="Save note" />
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

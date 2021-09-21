@@ -65,5 +65,13 @@ namespace TodoApp.Views
             saveNoteGlyph.Glyph = "\uEB4A";
             saveNoteButtonText.Text = "Save note";
         }
+
+        private async void SubTodoNameTextBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter && !string.IsNullOrEmpty(subTodoNameTextBox.Text))
+            {
+                bool res = await ViewModel.AddSubTodo();
+            }
+        }
     }
 }

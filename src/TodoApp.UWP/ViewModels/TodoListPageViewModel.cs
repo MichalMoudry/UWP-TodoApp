@@ -84,7 +84,7 @@ namespace TodoApp.ViewModels
         {
             if (!string.IsNullOrEmpty(TodoName))
             {
-                _todo = new Todo() { Id = Guid.NewGuid().ToString(), Name = TodoName, IsCompleted = false, Added = DateTime.Now, Updated = DateTime.Now };
+                _todo = new Todo() { Id = Guid.NewGuid().ToString(), Name = TodoName, IsCompleted = false, Added = DateTime.Now, Updated = DateTime.Now, Note = "" };
                 bool res = await _dataAccess.AddDataAsync(_todo, TableEnums.Todos.ToString());
                 TodoName = "";
                 if (!res)
@@ -131,7 +131,7 @@ namespace TodoApp.ViewModels
         public void OrderTodoList(Func<Todo, object> keySelector)
         {
             _keySelector = keySelector;
-            List<Todo> sortedCollection = new List<Todo>(Todos.OrderBy(keySelector));
+            List<Todo> sortedCollection = new(Todos.OrderBy(keySelector));
             Todos.Clear();
             foreach (Todo todo in sortedCollection)
             {
