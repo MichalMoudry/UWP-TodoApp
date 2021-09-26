@@ -71,6 +71,6 @@
         <Frame
             x:Name="rootFrame"
             Grid.Row="1"
-            Loaded="rootFrame_Loaded" />
+            Loaded="RootFrame_Loaded" />
     </Grid>
 </Page>

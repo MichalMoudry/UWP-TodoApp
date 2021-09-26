@@ -34,7 +34,7 @@ namespace TodoApp.Views
 
         public ShellPageViewModel ViewModel => (ShellPageViewModel)DataContext;
 
-        private void rootFrame_Loaded(object sender, RoutedEventArgs e)
+        private void RootFrame_Loaded(object sender, RoutedEventArgs e)
         {
             _ = rootFrame.Navigate(typeof(TodoListPage));
         }
