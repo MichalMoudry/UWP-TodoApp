@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:TodoApp.Controls"
+    xmlns:converters="using:TodoApp.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:entities="using:TodoApp.Shared.Models.Entity"
     xmlns:local="using:TodoApp.Views"
@@ -40,6 +41,8 @@
             <Setter Property="CornerRadius" Value="5" />
             <Setter Property="FlyoutBase.AttachedFlyout" Value="{StaticResource todoItemFlyout}" />
         </Style>
+
+        <converters:ValueToVisibilityConverter x:Name="ValueToVisiblityConverter" />
     </Page.Resources>
 
     <Grid Grid.Row="1">
@@ -61,7 +64,6 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
                             <CheckBox
@@ -71,11 +73,13 @@
                                 CornerRadius="10"
                                 IsChecked="{x:Bind IsCompleted}" />
 
-                            <TextBlock
+                            <Grid
                                 Grid.Column="1"
                                 Margin="15,0,0,0"
-                                VerticalAlignment="Center"
-                                Text="{x:Bind Name}" />
+                                VerticalAlignment="Center">
+                                <TextBlock Text="{x:Bind Name}" />
+                                <TextBlock Text="{x:Bind Note}" />
+                            </Grid>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

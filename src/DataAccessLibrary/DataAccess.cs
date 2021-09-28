@@ -29,36 +29,35 @@ namespace DataAccessLibrary
         /// <inheritdoc/>
         public async Task<bool> AddDataAsync(Entity entity, string tableName)
         {
-            using (SqliteConnection db = new SqliteConnection($"Filename={_dbPath}"))
-            {
-                db.Open();
-                _sqliteCommand = new SqliteCommand
-                {
-                    Connection = db,
-                    CommandText = $"INSERT INTO {tableName} VALUES "
-                };
-                List<SqliteParameter> parameters = new List<SqliteParameter>();
-                if (entity is Todo todo)
-                {
-                    _sqliteCommand.CommandText += $"(@Id, @IsCompleted, @Name, @Added, @Updated, @AlertDate, @CompletetionDate, @Repetition, @Note);";
-                    parameters.Add(new SqliteParameter("@Id", todo.Id));
-                    parameters.Add(new SqliteParameter("@IsCompleted", Convert.ToInt16(todo.IsCompleted)));
-                    parameters.Add(new SqliteParameter("@Name", todo.Name));
-                    parameters.Add(new SqliteParameter("@Added", todo.Added));
-                    parameters.Add(new SqliteParameter("@Updated", todo.Updated));
-                    parameters.Add(new SqliteParameter("@AlertDate", todo.AlertDate));
-                    parameters.Add(new SqliteParameter("@CompletetionDate", todo.CompletetionDate));
-                    parameters.Add(new SqliteParameter("@Repetition", Convert.ToInt16(todo.Repetition)));
-                    parameters.Add(new SqliteParameter("@Note", todo.Note));
-                    _sqliteCommand.Parameters.AddRange(parameters.ToArray());
-                }
-                _ = await _sqliteCommand.ExecuteReaderAsync();
-                db.Close();
-            }
-            return true;
             try
             {
-                
+                using (SqliteConnection db = new SqliteConnection($"Filename={_dbPath}"))
+                {
+                    db.Open();
+                    _sqliteCommand = new SqliteCommand
+                    {
+                        Connection = db,
+                        CommandText = $"INSERT INTO {tableName} VALUES "
+                    };
+                    List<SqliteParameter> parameters = new List<SqliteParameter>();
+                    if (entity is Todo todo)
+                    {
+                        _sqliteCommand.CommandText += $"(@Id, @IsCompleted, @Name, @Added, @Updated, @AlertDate, @CompletetionDate, @Repetition, @Note);";
+                        parameters.Add(new SqliteParameter("@Id", todo.Id));
+                        parameters.Add(new SqliteParameter("@IsCompleted", Convert.ToInt16(todo.IsCompleted)));
+                        parameters.Add(new SqliteParameter("@Name", todo.Name));
+                        parameters.Add(new SqliteParameter("@Added", todo.Added));
+                        parameters.Add(new SqliteParameter("@Updated", todo.Updated));
+                        parameters.Add(new SqliteParameter("@AlertDate", todo.AlertDate));
+                        parameters.Add(new SqliteParameter("@CompletetionDate", todo.CompletetionDate));
+                        parameters.Add(new SqliteParameter("@Repetition", Convert.ToInt16(todo.Repetition)));
+                        parameters.Add(new SqliteParameter("@Note", todo.Note));
+                        _sqliteCommand.Parameters.AddRange(parameters.ToArray());
+                    }
+                    _ = await _sqliteCommand.ExecuteReaderAsync();
+                    db.Close();
+                }
+                return true;
             }
             catch (Exception)
             {
@@ -204,6 +203,11 @@ namespace DataAccessLibrary
                     _ = _sqliteCommand.Parameters.AddWithValue("@IsCompleted", Convert.ToInt16(todo.IsCompleted));
                     _ = _sqliteCommand.Parameters.AddWithValue("@AlertDate", todo.AlertDate);
                     _ = _sqliteCommand.Parameters.AddWithValue("@Note", todo.Note);
+                }
+                else if (entity is SubTodo subTodo)
+                {
+                    _sqliteCommand.CommandText += "IsCompleted=@IsCompleted";
+                    _ = _sqliteCommand.Parameters.AddWithValue("@IsCompleted", Convert.ToInt16(subTodo.IsCompleted));
                 }
                 _sqliteCommand.CommandText += " WHERE Id=@Id;";
                 _ = _sqliteCommand.Parameters.AddWithValue("@Id", entity.Id);

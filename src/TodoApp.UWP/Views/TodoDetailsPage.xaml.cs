@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
+using System.Threading.Tasks;
 using TodoApp.ViewModels;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -49,8 +50,9 @@ namespace TodoApp.Views
         /// </summary>
         /// <param name="sender">Button for saving to-do note.</param>
         /// <param name="e">Event arguments.</param>
-        private void SaveNoteButton_Click(object sender, RoutedEventArgs e)
+        private async void SaveNoteButton_Click(object sender, RoutedEventArgs e)
         {
+            await ViewModel.UpdateTodoNote();
             saveNoteGlyph.Glyph = "\uE9A1";
             saveNoteButtonText.Text = "Saved";
         }
@@ -71,6 +73,7 @@ namespace TodoApp.Views
             if (e.Key == Windows.System.VirtualKey.Enter && !string.IsNullOrEmpty(subTodoNameTextBox.Text))
             {
                 bool res = await ViewModel.AddSubTodo();
+                System.Diagnostics.Debug.WriteLine(res);
             }
         }
     }

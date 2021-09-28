@@ -44,21 +44,24 @@ namespace TodoApp.ViewModels
         {
             TodoListPageViewModel todoListPageViewModel = App.Services.GetRequiredService<TodoListPageViewModel>();
             string sortOption = await _dialogService.OpenSortDialog("Sort to-do list", new SortListControl(), "Close", "Sort");
-            if (sortOption.Equals("alphabet"))
+            if (sortOption != null)
             {
-                todoListPageViewModel.OrderTodoList(i => i.Name);
-            }
-            else if (sortOption.Equals("completion"))
-            {
-                todoListPageViewModel.OrderTodoList(i => i.IsCompleted);
-            }
-            else if (sortOption.Equals("dateAdded"))
-            {
-                todoListPageViewModel.OrderTodoList(i => i.Added);
-            }
-            else if (sortOption.Equals("dateUpdated"))
-            {
-                todoListPageViewModel.OrderTodoList(i => i.Updated);
+                if (sortOption.Equals("alphabet"))
+                {
+                    todoListPageViewModel.OrderTodoList(i => i.Name);
+                }
+                else if (sortOption.Equals("completion"))
+                {
+                    todoListPageViewModel.OrderTodoList(i => i.IsCompleted);
+                }
+                else if (sortOption.Equals("dateAdded"))
+                {
+                    todoListPageViewModel.OrderTodoList(i => i.Added);
+                }
+                else if (sortOption.Equals("dateUpdated"))
+                {
+                    todoListPageViewModel.OrderTodoList(i => i.Updated);
+                }
             }
         }
     }

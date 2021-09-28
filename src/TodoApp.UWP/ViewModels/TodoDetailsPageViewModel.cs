@@ -1,11 +1,11 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using TodoApp.Services;
 using TodoApp.Shared.Enums;
 using TodoApp.Shared.Models.Entity;
 using TodoApp.Shared.Services;
-using System;
 
 namespace TodoApp.ViewModels
 {
@@ -25,19 +25,20 @@ namespace TodoApp.ViewModels
         private readonly NavigationService _navigationService;
 
         /// <summary>
+        /// Private field with a value of a new sub to-do's name.
+        /// </summary>
+        private string _subTodoName;
+
+        /// <summary>
         /// To-do that is being edited.
         /// </summary>
         private Todo _todo;
 
-        /// <summary>
-        /// Observable collection with to-do's sub to-dos.
-        /// </summary>
-        public ObservableCollection<SubTodo> SubTodos { get; set; } = new ObservableCollection<SubTodo>();
-
-        /// <summary>
-        /// Private field with a value of a new sub to-do's name.
-        /// </summary>
-        private string _subTodoName;
+        public TodoDetailsPageViewModel(IDataAccess dataAccess, NavigationService navigationService)
+        {
+            _dataAccess = dataAccess;
+            _navigationService = navigationService;
+        }
 
         /// <summary>
         /// Name of the sub to-do that will be added to db.
@@ -48,11 +49,10 @@ namespace TodoApp.ViewModels
             set => SetProperty(ref _subTodoName, value);
         }
 
-        public TodoDetailsPageViewModel(IDataAccess dataAccess, NavigationService navigationService)
-        {
-            _dataAccess = dataAccess;
-            _navigationService = navigationService;
-        }
+        /// <summary>
+        /// Observable collection with to-do's sub to-dos.
+        /// </summary>
+        public ObservableCollection<SubTodo> SubTodos { get; set; } = new ObservableCollection<SubTodo>();
 
         /// <summary>
         /// To-do that is being edited.
@@ -61,6 +61,25 @@ namespace TodoApp.ViewModels
         {
             get => _todo;
             set => SetProperty(ref _todo, value);
+        }
+
+        /// <summary>
+        /// Method for adding a sub to-do.
+        /// </summary>
+        /// <returns>True if operations was completed, false if not.</returns>
+        public async Task<bool> AddSubTodo()
+        {
+            if (!string.IsNullOrEmpty(SubTodoName))
+            {
+                await Task.Delay(1);
+                SubTodo subTodo = new() { Id = Guid.NewGuid().ToString(), Name = SubTodoName, Added = DateTime.Now, Updated = DateTime.Now, IsCompleted = false, TodoId = Todo.Id };
+                SubTodos.Add(subTodo);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -77,19 +96,12 @@ namespace TodoApp.ViewModels
         /// </summary>
         public void NavigateBack() => _navigationService.GoBack();
 
-        public async Task<bool> AddSubTodo()
+        /// <summary>
+        /// Method for updating a to-do note.
+        /// </summary>
+        public async Task UpdateTodoNote()
         {
-            if (!string.IsNullOrEmpty(SubTodoName))
-            {
-                await Task.Delay(1);
-                SubTodo subTodo = new() { Id = Guid.NewGuid().ToString(), Name = SubTodoName, Added = DateTime.Now, Updated = DateTime.Now, IsCompleted = false, TodoId = Todo.Id };
-                SubTodos.Add(subTodo);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            _ = await _dataAccess.UpdateDataAsync(Todo, TableEnums.Todos.ToString());
         }
     }
 }

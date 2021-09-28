@@ -125,7 +125,7 @@
                         Margin="15,5,0,5"
                         Style="{StaticResource SubtitleTextBlockStyle}"
                         Text="Sub to-dos" />
-                    <ListView ItemsSource="{x:Bind ViewModel.SubTodos}">
+                    <ListView ItemsSource="{x:Bind ViewModel.SubTodos}" SelectionMode="None">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="entities:SubTodo">
                                 <Grid>
@@ -290,6 +290,7 @@
                         IsSpellCheckEnabled="True"
                         PlaceholderText="Add note"
                         SelectionHighlightColor="{StaticResource AppBackgroundBrush}"
+                        Text="{x:Bind ViewModel.Todo.Note, Mode=TwoWay}"
                         TextChanged="TodoNoteTextBox_TextChanged"
                         TextWrapping="Wrap" />
 
